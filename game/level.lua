@@ -17,6 +17,7 @@ function level.new(name)
   
   local instance = setmetatable({}, mt)
   instance:process(data)
+  instance:validate()
   
   return instance
 end
@@ -62,6 +63,13 @@ function level:processObjects(objects)
       self.playerspawn = object
     end
   end
+end
+
+function level:validate()
+  assert(self.foreground,  'foreground layer not defined')
+  assert(self.playerspawn, 'playerspawn object not defined')
+  assert(self.image,       'image not loaded')
+  assert(self.quads,       'quads not defined')
 end
 
 function level:solidAt(x, y)
