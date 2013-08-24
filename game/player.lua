@@ -1,26 +1,11 @@
-local rectangle = require('game.rectangle')
+local actor = require('game.actor')
 
-local player = {}
+local player = setmetatable({}, {__index = actor})
 local mt = {__index = player}
 
 function player.new(x, y)
-  local instance = {
-    x = x,
-    y = y,
-    w = 32,
-    h = 64,
-    vx = 0,
-    vy = 0,
-    hb = rectangle.new(x or 0, y or 0, 32, 64)
-  }
+  local instance = actor.new(x, y)
   return setmetatable(instance, mt)
-end
-
-function player:hitbox()
-  local hitbox = self.hb
-  hitbox.x = self.x
-  hitbox.y = self.y
-  return hitbox
 end
 
 return player
