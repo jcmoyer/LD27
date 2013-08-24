@@ -1,4 +1,5 @@
 local rectangle = require('game.rectangle')
+local mathex = require('core.extensions.math')
 
 local actor = {}
 local mt = {__index = actor}
@@ -11,6 +12,11 @@ function actor.new(x, y)
     h = 64,
     vx = 0,
     vy = 0,
+    
+    maxspeed     = 5,
+    acceleration = 1,
+    damping      = 0.8,
+    
     hb = rectangle.new(x or 0, y or 0, 32, 64)
   }
   return setmetatable(instance, mt)
@@ -21,6 +27,15 @@ function actor:hitbox()
   hitbox.x = self.x
   hitbox.y = self.y
   return hitbox
+end
+
+function actor:move(direction)
+  if direction == 'left' then
+    self.vx = self.vx - self.acceleration
+  elseif direction == 'right' then
+    self.vx = self.vx + self.acceleration
+  end
+  self.vx = mathex.clamp(self.vx, -self.maxspeed, self.maxspeed)
 end
 
 -- takes the level to resolve collision within
@@ -62,6 +77,9 @@ function actor:update(level)
       self.vy = 0
     end
   end
+  
+  -- apply damping
+  self.vx = self.vx * self.damping
 end
 
 return actor
