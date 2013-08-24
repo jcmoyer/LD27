@@ -48,6 +48,17 @@ end
 function level:processLayer(layer)
   if layer.type == 'tilelayer' and layer.name == 'foreground' then
     self.foreground = tilemap.new(layer.data, layer.width, layer.height)
+  elseif layer.type == 'objectgroup' and layer.name == 'objects' then
+    self:processObjects(layer.objects)
+  end
+end
+
+function level:processObjects(objects)
+  for i = 1, #objects do
+    local object = objects[i]
+    if object.name == 'playerspawn' then
+      self.playerspawn = object
+    end
   end
 end
 
