@@ -66,14 +66,14 @@ end
 
 function level:solidAt(x, y)
   -- convert x and y from pixel to tile coordinates
-  local tx = math.floor(x / 32) + 1
-  local ty = math.floor(y / 32) + 1
+  local tx = math.floor(x / self.tilewidth) + 1
+  local ty = math.floor(y / self.tileheight) + 1
   
   if tx <= 0 then return false, 0, 0 end
   if ty <= 0 then return false, 0, 0 end
   
   local layer = self.foreground
-  return self.foreground:at(tx, ty) ~= 0, tx * 32, (ty - 1) * 32
+  return self.foreground:at(tx, ty) ~= 0, tx * self.tilewidth, (ty - 1) * self.tileheight
 end
 
 function level:draw(camera)
