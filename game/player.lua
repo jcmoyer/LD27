@@ -9,6 +9,8 @@ function player.new(x, y)
     y = y,
     w = 32,
     h = 64,
+    vx = 0,
+    vy = 0,
     hb = rectangle.new(x or 0, y or 0, 32, 64)
   }
   return setmetatable(instance, mt)
