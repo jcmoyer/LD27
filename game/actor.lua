@@ -16,6 +16,7 @@ function actor.new(x, y)
     maxspeed     = 5,
     acceleration = 1,
     damping      = 0.8,
+    jumpvel      = -7,
     
     hb = rectangle.new(x or 0, y or 0, 32, 64)
   }
@@ -36,6 +37,15 @@ function actor:move(direction)
     self.vx = self.vx + self.acceleration
   end
   self.vx = mathex.clamp(self.vx, -self.maxspeed, self.maxspeed)
+end
+
+function actor:jump()
+  if self.vy == 0 then
+    self.vy = self.jumpvel
+    return true
+  else
+    return false
+  end
 end
 
 -- takes the level to resolve collision within
