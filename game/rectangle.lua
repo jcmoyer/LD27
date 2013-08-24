@@ -19,4 +19,11 @@ function rectangle:bottom()
   return self.y + self.h
 end
 
+function rectangle:intersects(r)
+  return not (self:bottom() < r.y or
+              self.y > r:bottom() or
+              self.x > r:right()  or
+              self:right() < r.x)
+end
+
 return rectangle
