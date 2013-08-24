@@ -26,4 +26,8 @@ function rectangle:intersects(r)
               self:right() < r.x)
 end
 
+function rectangle:unpack()
+  return self.x, self.y, self.w, self.h
+end
+
 return rectangle
