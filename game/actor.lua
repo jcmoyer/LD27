@@ -39,6 +39,18 @@ function actor:move(direction)
   self.vx = mathex.clamp(self.vx, -self.maxspeed, self.maxspeed)
 end
 
+function actor:applyForce(direction, magnitude)
+  if direction == 'left' then
+    self.vx = self.vx - magnitude
+  elseif direction == 'right' then
+    self.vx = self.vx + magnitude
+  elseif direction == 'up' then
+    self.vy = self.vy - magnitude
+  elseif direction == 'down' then
+    self.vy = self.vy + magnitude
+  end
+end
+
 function actor:jump()
   if self.vy == 0 then
     self.vy = self.jumpvel
