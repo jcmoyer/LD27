@@ -28,6 +28,8 @@ function level:process(data)
   
   self.width  = data.width
   self.height = data.height
+  self.tilewidth  = data.tilewidth
+  self.tileheight = data.tileheight
   
   for i = 1, #data.tilesets do
     self:processTileset(data.tilesets[i])
