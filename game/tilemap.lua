@@ -11,7 +11,7 @@ function tilemap.new(data, width, height)
 end
 
 function tilemap:at(x, y)
-  return self.data[(y - 1) * self.width + x]
+  return self.data[(y - 1) * self.width + x] or 0
 end
 
 return tilemap
