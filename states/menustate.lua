@@ -8,4 +8,8 @@ function menustate.new()
   return setmetatable({}, mt)
 end
 
+function menustate:onEnter()
+  self:sm():push(playstate.new())
+end
+
 return menustate
