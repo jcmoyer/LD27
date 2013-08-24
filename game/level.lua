@@ -63,4 +63,23 @@ function level:solidAt(x, y)
   return self.foreground:at(tx, ty) ~= 0, tx * 32, (ty - 1) * 32
 end
 
+function level:draw(camera)
+  -- only draw what we can see
+  -- this assumes that the love transform has been translated by the camera's position
+  local minx, maxx, miny, maxy
+  minx = math.max(0,           math.floor(-camera.x / 32))
+  maxx = math.min(self.width,  math.ceil((-camera.x + camera.w) / 32))
+  miny = math.max(0,           math.floor(-camera.y / 32))
+  maxy = math.min(self.height, math.ceil((-camera.y + camera.h) / 32))
+  
+  for y = miny, maxy do
+    for x = minx, maxx do
+      local tid = self.foreground:at(x+1, y)
+      if tid > 0 then
+        love.graphics.drawq(self.image, self.quads[tid], (x) * 32, (y-1) * 32)
+      end
+    end
+  end
+end
+
 return level
