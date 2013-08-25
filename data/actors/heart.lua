@@ -7,6 +7,6 @@ return {
   maxspeed           = 5,
   airacceleration    = 0.5,
   groundacceleration = 0,
-  damping            = 0.7,
+  damping            = 0.95,
   jumpvel            = -5
 }
