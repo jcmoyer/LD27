@@ -90,6 +90,7 @@ function playstate:draw()
   self.level:draw(self.camera)
   
   -- draw player
+  love.graphics.setColor(255, 255, 255)
   love.graphics.rectangle('fill', self.player:hitbox():unpack())
   
   love.graphics.pop()
