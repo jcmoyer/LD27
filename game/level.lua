@@ -39,6 +39,10 @@ function level:process(data)
   self.actors   = {}
   self.respawns = {}
   
+  if data.properties.bgimage ~= nil then
+    self.bgimage = love.graphics.newImage('data/images/' .. data.properties.bgimage)
+  end
+  
   for i = 1, #data.tilesets do
     self:processTileset(data.tilesets[i])
   end
