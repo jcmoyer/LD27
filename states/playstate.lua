@@ -21,6 +21,16 @@ local function lifetimeStr(x)
   return string.format('%02d:%03d', sec, msec)
 end
 
+function playstate:killPlayer()
+  self.lives    = self.lives - 1
+  self.lifetime = 10
+  
+  if self.lives <= 0 then
+    self:sm():pop()
+    self:sm():push(gameoverstate.new())
+  end
+end
+
 function playstate:changelevel(name)
   self.level  = level.new(name)
   self.player = player.new(self.level.playerspawn.x, self.level.playerspawn.y)
@@ -90,13 +100,20 @@ function playstate:update(dt)
   player:applyForce('down', 0.2)
   player:update(self.level)
   
+  local playerHitbox = player:hitbox()
+  
   for i = 1, #self.ais do
     self.ais[i](dt)
   end
   for i = 1, #self.level.actors do
+    local actor = self.level.actors[i]
     -- Gravity
-    self.level.actors[i]:applyForce('down', 0.2)
-    self.level.actors[i]:update(self.level, dt)
+    actor:applyForce('down', 0.2)
+    actor:update(self.level, dt)
+    
+    if actor:hitbox():intersects(playerHitbox) then
+      self:killPlayer()
+    end
   end
   
   -- Pan camera to player's position gradually
@@ -109,13 +126,7 @@ function playstate:update(dt)
   self.lifetime = self.lifetime - dt
   
   if self.lifetime <= 0 then
-    self.lives    = self.lives - 1
-    self.lifetime = 10
-    
-    if self.lives <= 0 then
-      self:sm():pop()
-      self:sm():push(gameoverstate.new())
-    end
+    self:killPlayer()
   end
 end
 
