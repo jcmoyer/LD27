@@ -42,6 +42,9 @@ function actorcontext.new(actor, player)
   function t.playSound(name)
     return sounds.play(name)
   end
+  function t.kill()
+    return actor:kill()
+  end
   return t
 end
 
