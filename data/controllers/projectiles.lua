@@ -1,5 +1,6 @@
 local function onTick(context, dt)
   if context.atWall() then
+    context.playSound('hit')
     context.kill()
   end
 end
@@ -9,6 +10,7 @@ local function onCollide(context, actor)
     return
   end
   
+  context.playSound('hit')
   context.kill()
   actor:kill()
 end
