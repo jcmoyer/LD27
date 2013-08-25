@@ -1,6 +1,7 @@
 local tilemap = require('game.tilemap')
 local imageslicer = require('game.imageslicer')
 local path = require('game.path')
+local portal = require('game.portal')
 
 local level = {}
 local mt = {__index = level}
@@ -32,6 +33,8 @@ function level:process(data)
   self.tilewidth  = data.tilewidth
   self.tileheight = data.tileheight
   
+  self.portals = {}
+  
   for i = 1, #data.tilesets do
     self:processTileset(data.tilesets[i])
   end
@@ -61,6 +64,8 @@ function level:processObjects(objects)
     local object = objects[i]
     if object.type == 'playerspawn' then
       self.playerspawn = object
+    elseif object.type == 'portal' then
+      self.portals[#self.portals + 1] = portal.new(object.x, object.y, object.properties.destination)
     end
   end
 end
@@ -93,6 +98,7 @@ function level:draw(camera)
   miny = math.max(0,           math.floor(-camera.y / 32))
   maxy = math.min(self.height, math.ceil((-camera.y + camera.h) / 32))
   
+  love.graphics.setColor(255, 255, 255)
   for y = miny, maxy do
     for x = minx, maxx - 1 do
       local tid = self.foreground:at(x+1, y)
@@ -100,6 +106,12 @@ function level:draw(camera)
         love.graphics.drawq(self.image, self.quads[tid], (x) * 32, (y-1) * 32)
       end
     end
+  end
+  
+  -- TODO: Replace with some sort of portal graphic?
+  love.graphics.setColor(0, 0, 180)
+  for i = 1, #self.portals do
+    love.graphics.rectangle('fill', self.portals[i].x, self.portals[i].y, 64, 96)
   end
 end
 
