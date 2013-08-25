@@ -9,6 +9,7 @@ local aicontroller = require('game.aicontroller')
 local actorcontext = require('game.actorcontext')
 local gameoverstate = require('states.gameoverstate')
 local clearstate = require('states.clearstate')
+local sounds = require('game.sounds')
 
 local playstate = setmetatable({}, {__index = gamestate})
 local mt = {__index = playstate}
@@ -26,6 +27,8 @@ local function lifetimeStr(x)
 end
 
 function playstate:killPlayer()
+  sounds.play('death')
+  
   self.lives    = self.lives - 1
   self.lifetime = 10
   
