@@ -58,4 +58,10 @@ function gameoverstate:draw()
   end
 end
 
+function gameoverstate:mousepressed(x, y, button)
+  if button == 'l' then
+    self:sm():pop()
+  end
+end
+
 return gameoverstate
