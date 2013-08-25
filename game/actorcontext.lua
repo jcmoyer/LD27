@@ -6,6 +6,9 @@ function actorcontext.new(actor, player)
   function t.move(direction)
     return actor:move(direction)
   end
+  function t.applyForce(direction, magnitude)
+    return actor:applyForce(direction, magnitude)
+  end
   function t.jump()
     return actor:jump()
   end
