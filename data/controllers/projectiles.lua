@@ -1,5 +1,5 @@
 local time = 0
-local maxtime = 2
+local maxtime = 1
 
 local function onTick(context, dt)
   if context.atWall() or time >= maxtime then
