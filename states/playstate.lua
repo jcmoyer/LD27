@@ -101,7 +101,7 @@ function playstate:update(dt)
   
   -- Apply gravitational force to player
   player:applyForce('down', 0.2)
-  player:update(self.level)
+  player:update(self.level, dt)
   
   local playerHitbox = player:hitbox()
   
@@ -141,7 +141,8 @@ function playstate:draw()
   
   -- draw player
   love.graphics.setColor(255, 255, 255)
-  love.graphics.rectangle('fill', self.player:hitbox():unpack())
+  local x, y = self.player:hitbox():unpack()
+  love.graphics.drawq(self.player.aset.image, self.player.aset:currentQuad(), math.floor(x), math.floor(y))
   
   for i = 1, #self.level.actors do
     local actor = self.level.actors[i]
