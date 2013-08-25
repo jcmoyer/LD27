@@ -1,3 +1,5 @@
+local uiscene = require('ui.scene')
+local uibutton = require('ui.button')
 local gamestate = require('core.gamestate')
 local fontpool = require('core.fontpool')
 
@@ -40,9 +42,26 @@ end
 -- kind can be 'win' or 'lose'; defaults to 'lose'
 function gameoverstate.new(kind)
   local instance = {
-    kind = kind or 'lose'
+    kind = kind or 'lose',
+    ui = uiscene.new()
   }
+  
+  local btnmenu = uibutton.new()
+  btnmenu.text = "Main Menu"
+  btnmenu.w = 100
+  btnmenu.h = 50
+  btnmenu.x = love.graphics.getWidth() - btnmenu.w - 32
+  btnmenu.y = love.graphics.getHeight() - btnmenu.h - 32
+  btnmenu.events.click:add(function()
+    instance:sm():pop()
+  end)
+  instance.ui:addchild(btnmenu)
+  
   return setmetatable(instance, mt)
+end
+
+function gameoverstate:update(dt)
+  self.ui:update(dt)
 end
 
 function gameoverstate:draw()
@@ -56,12 +75,16 @@ function gameoverstate:draw()
   elseif self.kind == 'lose' then
     drawLoseMessage()
   end
+  
+  self.ui:draw()
 end
 
 function gameoverstate:mousepressed(x, y, button)
-  if button == 'l' then
-    self:sm():pop()
-  end
+  self.ui:mousepressed(x, y, button)
+end
+
+function gameoverstate:mousereleased(x, y, button)
+  self.ui:mousereleased(x, y, button)
 end
 
 return gameoverstate
