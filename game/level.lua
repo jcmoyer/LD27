@@ -149,6 +149,10 @@ function level:lastRespawn(x, y)
   return lastRespawn
 end
 
+function level:spawnActor(kind, x, y)
+  self.actors[#self.actors + 1] = actor.fromScript(kind, x, y)
+end
+
 function level:draw(camera)
   -- only draw what we can see
   -- this assumes that the love transform has been translated by the camera's position
