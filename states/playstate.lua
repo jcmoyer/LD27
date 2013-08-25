@@ -29,6 +29,9 @@ function playstate:killPlayer()
     self:sm():pop()
     self:sm():push(gameoverstate.new())
   end
+  
+  local respawnArea = self.level:lastRespawn(self.player.x, self.player.y)
+  self.player.x, self.player.y = respawnArea:center()
 end
 
 function playstate:changelevel(name)
