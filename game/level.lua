@@ -3,6 +3,7 @@ local imageslicer = require('game.imageslicer')
 local path = require('game.path')
 local portal = require('game.portal')
 local actor = require('game.actor')
+local rectangle = require('game.rectangle')
 
 local level = {}
 local mt = {__index = level}
@@ -34,8 +35,9 @@ function level:process(data)
   self.tilewidth  = data.tilewidth
   self.tileheight = data.tileheight
   
-  self.portals = {}
-  self.actors  = {}
+  self.portals  = {}
+  self.actors   = {}
+  self.respawns = {}
   
   for i = 1, #data.tilesets do
     self:processTileset(data.tilesets[i])
@@ -70,6 +72,8 @@ function level:processObjects(objects)
       self.portals[#self.portals + 1] = portal.new(object.x, object.y, object.properties.destination)
     elseif object.type == 'actor' then
       self.actors[#self.actors + 1] = actor.fromScript(object.properties.kind, object.x, object.y)
+    elseif object.type == 'respawn' then
+      self.respawns[#self.respawns + 1] = rectangle.new(object.x, object.y, object.width, object.height)
     end
   end
 end
@@ -100,6 +104,39 @@ function level:portalAt(x, y)
       return self.portals[i]
     end
   end
+end
+
+function level:lastRespawn(x, y)
+  local lastDist = self.width * self.tilewidth
+  local lastRespawn
+  
+  for i = 1, #self.respawns do
+    local respawn = self.respawns[i]
+    local rx, ry = respawn:center()
+    
+    if rx <= x then
+      local dx = rx - x
+      local dy = ry - y
+      local dist = math.sqrt(dx * dx + dy * dy)
+      
+      if lastRespawn ~= nil then
+        if dist < lastDist then
+          lastRespawn = respawn
+          lastDist = dist
+        end
+      else
+        lastRespawn = respawn
+        lastDist = dist
+      end
+    end
+  end
+  
+  -- just return the spawn area if no respawns were defined
+  if lastRespawn == nil then
+    return rectangle.new(self.playerspawn.x, self.playerspawn.y, 0, 0)
+  end
+  
+  return lastRespawn
 end
 
 function level:draw(camera)
