@@ -20,6 +20,7 @@ function actor.new(x, y)
     damping            = 0.8,
     jumpvel            = -7,
     onground           = false,
+    atwall             = false,
     
     -- only used for scripted actors
     controller = nil,
@@ -101,6 +102,8 @@ end
 
 -- takes the level to resolve collision within
 function actor:update(level, dt)
+  self.atwall = false
+  
   self.x = self.x + self.vx
   local hitbox = self:hitbox()
   
@@ -111,12 +114,14 @@ function actor:update(level, dt)
     if solid then
       self.x = tx
       self.vx = 0
+      self.atwall = true
     end
     
     solid, tx = level:solidAt(hitbox:right(), y)
     if solid then
       self.x = tx - self.w - level.tilewidth
       self.vx = 0
+      self.atwall = true
     end
   end
   
