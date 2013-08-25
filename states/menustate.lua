@@ -4,6 +4,10 @@ local level = require('game.level')
 local camera = require('core.camera')
 local fontpool = require('core.fontpool')
 
+local uiscene = require('ui.scene')
+local uistackpanel = require('ui.stackpanel')
+local uibutton = require('ui.button')
+
 local menustate = setmetatable({}, {__index = gamestate})
 local mt = {__index = menustate}
 
@@ -23,11 +27,44 @@ function menustate.new()
     level = level.new('title'),
     camera = camera.new(love.graphics.getWidth(), love.graphics.getHeight())
   }
-  return setmetatable(instance, mt)
+  setmetatable(instance, mt)
+  
+  -- ui code
+  local ui = uiscene.new()
+  local stackpanel = uistackpanel.new()
+  stackpanel.x = love.graphics.getWidth() / 2 - 75
+  stackpanel.y = love.graphics.getHeight() / 2 - 50
+  stackpanel.w = 150
+  stackpanel.h = 100
+  local btnstart = uibutton.new()
+  btnstart.text = "Start"
+  btnstart.events.click:add(function()    
+    instance:sm():push(playstate.new())
+  end)
+  local btnexit = uibutton.new()
+  btnexit.text = "Exit"
+  btnexit.events.click:add(function()
+    love.event.quit()
+  end)
+  stackpanel:addchild(btnstart)
+  stackpanel:addchild(btnexit)
+  ui:addchild(stackpanel)
+  instance.ui = ui
+  -- end ui code
+  
+  return instance
 end
 
-function menustate:onEnter()
-  --self:sm():push(playstate.new())
+function menustate:mousepressed(x, y, button)
+  self.ui:mousepressed(x, y, button)
+end
+
+function menustate:mousereleased(x, y, button)
+  self.ui:mousereleased(x, y, button)
+end
+
+function menustate:update(dt)
+  self.ui:update(dt)
 end
 
 function menustate:draw()
@@ -43,8 +80,10 @@ function menustate:draw()
   love.graphics.pop()
   
   love.graphics.setColor(0, 0, 0, 128)
-  love.graphics.rectangle('fill', 0, 0, 800, 600)
+  love.graphics.rectangle('fill', 0, 0, love.graphics.getWidth(), love.graphics.getHeight())
   drawHeader()
+  
+  self.ui:draw()
 end
 
 return menustate
