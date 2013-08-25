@@ -2,6 +2,7 @@ local gamestate = require('core.gamestate')
 local fontpool = require('core.fontpool')
 local timerpool = require('core.timerpool')
 local mathex = require('core.extensions.math')
+local sounds = require('game.sounds')
 
 local clearstate = setmetatable({}, {__index = gamestate})
 local mt = {__index = clearstate}
@@ -29,7 +30,8 @@ function clearstate:onEnter()
     timerpool.start(5, function()
       instance:sm():pop()
     end)
-  end)  
+  end)
+  sounds.play('fanfare')
 end
 
 function clearstate:draw()
