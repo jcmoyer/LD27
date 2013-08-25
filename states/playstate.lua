@@ -144,7 +144,9 @@ function playstate:keypressed(key)
   if key == 'z' then
     local x, y = self.player:hitbox():center()
     local a, c = self:spawnActor('projectiles', x, y)
-    a:applyForce('right', 5)
+    
+    a.facing = self.player.facing
+    a:applyForce(self.player.facing, 7)
     
     intercept = true
   end
