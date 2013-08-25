@@ -17,6 +17,7 @@ function actor.new(x, y)
     acceleration = 1,
     damping      = 0.8,
     jumpvel      = -7,
+    onground     = false,
     
     hb = rectangle.new(x or 0, y or 0, 32, 64)
   }
@@ -52,7 +53,8 @@ function actor:applyForce(direction, magnitude)
 end
 
 function actor:jump()
-  if self.vy == 0 then
+  if self.onground == true then
+    self.onground = false
     self.vy = self.jumpvel
     return true
   else
@@ -91,6 +93,7 @@ function actor:update(level)
     if solid then
       self.y = ty - self.h
       self.vy = 0
+      self.onground = true
     end
     
     solid, _, ty = level:solidAt(x, hitbox.y)
