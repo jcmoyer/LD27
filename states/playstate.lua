@@ -26,6 +26,28 @@ local function lifetimeStr(x)
   return string.format('%02d:%03d', sec, msec)
 end
 
+function playstate:spawnActor(kind, x, y)
+  local a = self.level:spawnActor(kind, x, y)
+  
+  local ai      = aicontroller.new(a.controller, a)
+  -- whoa this is ugly
+  local instance = self
+  local context = actorcontext.new(a, self.player, function(...) instance:spawnActor(...) end)
+  --self.ais[#self.ais + 1] = ai
+  self.ais[#self.ais + 1] = {
+    onTick = function(dt)
+      ai:onTick(context, dt)
+    end,
+    onTouch = function()
+      ai:onTouch(context)
+    end,
+    onDie = function()
+      ai:onDie(context)
+    end
+  }
+  self.actorais[a] = self.ais[#self.ais]
+end
+
 function playstate:killPlayer()
   sounds.play('death')
   
@@ -52,7 +74,9 @@ function playstate:changelevel(name)
   self.actorais = {}
   for i = 1, #self.level.actors do
     local ai      = aicontroller.new(self.level.actors[i].controller, self.level.actors[i])
-    local context = actorcontext.new(self.level.actors[i], self.player)
+    -- whoa this is ugly
+    local instance = self
+    local context = actorcontext.new(self.level.actors[i], self.player, function(...) instance:spawnActor(...) end)
     --self.ais[#self.ais + 1] = ai
     self.ais[#self.ais + 1] = {
       onTick = function(dt)
@@ -60,6 +84,9 @@ function playstate:changelevel(name)
       end,
       onTouch = function()
         ai:onTouch(context)
+      end,
+      onDie = function()
+        ai:onDie(context)
       end
     }
     self.actorais[self.level.actors[i]] = self.ais[#self.ais]
@@ -135,7 +162,9 @@ function playstate:update(dt)
   for i = #self.level.actors, 1, -1 do
     local actor = self.level.actors[i]
     -- Gravity
-    actor:applyForce('down', 0.2)
+    if actor.ignoregravity == false then
+      actor:applyForce('down', 0.2)
+    end
     actor:update(self.level, dt)
     
     if actor.alive then
@@ -146,6 +175,7 @@ function playstate:update(dt)
         end
       end
     else
+      self.actorais[self.level.actors[i]].onDie()
       table.remove(self.level.actors, i)
     end
   end

@@ -150,7 +150,9 @@ function level:lastRespawn(x, y)
 end
 
 function level:spawnActor(kind, x, y)
-  self.actors[#self.actors + 1] = actor.fromScript(kind, x, y)
+  local a = actor.fromScript(kind, x, y)
+  self.actors[#self.actors + 1] = a
+  return a
 end
 
 function level:draw(camera)

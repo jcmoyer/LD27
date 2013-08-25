@@ -14,6 +14,7 @@ function actor.new(x, y)
     vx = 0,
     vy = 0,
     
+    ignoregravity      = false,
     maxspeed           = 5,
     airacceleration    = 1,
     groundacceleration = 1,
@@ -41,6 +42,7 @@ function actor.fromScript(name, x, y)
   local t     = chunk()
   
   local instance              = actor.new(x, y)
+  instance.ignoregravity      = t.ignoregravity or instance.ignoregravity
   instance.maxspeed           = t.maxspeed or instance.maxspeed
   instance.airacceleration    = t.airacceleration or instance.airacceleration
   instance.groundacceleration = t.groundacceleration or instance.groundacceleration

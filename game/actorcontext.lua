@@ -3,7 +3,7 @@ local sounds = require('game.sounds')
 -- provides an interface between the world and aicontroller
 local actorcontext = {}
 
-function actorcontext.new(actor, player)
+function actorcontext.new(actor, player, spawner)
   local t = {}
   function t.move(direction)
     return actor:move(direction)
@@ -44,6 +44,12 @@ function actorcontext.new(actor, player)
   end
   function t.kill()
     return actor:kill()
+  end
+  function t.dimensions()
+    return actor:hitbox():unpack()
+  end
+  function t.spawnActor(kind, x, y)
+    return spawner(kind, x, y)
   end
   return t
 end

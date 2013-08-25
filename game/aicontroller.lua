@@ -25,4 +25,8 @@ function aicontroller:onTouch(context)
   safeCall(self.t, 'onTouch', context)
 end
 
+function aicontroller:onDie(context)
+  safeCall(self.t, 'onDie', context)
+end
+
 return aicontroller
