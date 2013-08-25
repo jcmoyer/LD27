@@ -3,6 +3,7 @@ local level = require('game.level')
 local player = require('game.player')
 local camera = require('core.camera')
 local controller = require('game.controller')
+local mathex = require('core.extensions.math')
 
 local playstate = setmetatable({}, {__index = gamestate})
 local mt = {__index = playstate}
@@ -50,6 +51,10 @@ function playstate:update(dt)
   
   -- Pan camera to player's position gradually
   self.camera:panCenter(player.x, player.y, dt * 3)
+  
+  -- Lock camera to level boundaries
+  self.camera.x = mathex.clamp(self.camera.x, -self.level.width  * self.level.tilewidth  + love.graphics.getWidth(), 0)
+  self.camera.y = mathex.clamp(self.camera.y, -self.level.height * self.level.tileheight + love.graphics.getHeight(), 0)
 end
 
 function playstate:draw()
