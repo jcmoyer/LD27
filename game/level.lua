@@ -39,6 +39,8 @@ function level:process(data)
   self.actors   = {}
   self.respawns = {}
   
+  self.areaname = data.properties.areaname
+  
   if data.properties.bgimage ~= nil then
     self.bgimage = love.graphics.newImage('data/images/' .. data.properties.bgimage)
   end
