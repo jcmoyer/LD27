@@ -79,7 +79,7 @@ function level:processObjects(objects)
     if object.type == 'playerspawn' then
       self.playerspawn = object
     elseif object.type == 'portal' then
-      self.portals[#self.portals + 1] = portal.new(object.x, object.y, object.properties.destination)
+      self.portals[#self.portals + 1] = portal.new(object.x, object.y, object.properties.destination, object.properties.wins == 'true')
     elseif object.type == 'actor' then
       self.actors[#self.actors + 1] = actor.fromScript(object.properties.kind, object.x, object.y)
     elseif object.type == 'respawn' then
