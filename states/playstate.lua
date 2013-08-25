@@ -8,6 +8,7 @@ local fontpool = require('core.fontpool')
 local aicontroller = require('game.aicontroller')
 local actorcontext = require('game.actorcontext')
 local gameoverstate = require('states.gameoverstate')
+local clearstate = require('states.clearstate')
 
 local playstate = setmetatable({}, {__index = gamestate})
 local mt = {__index = playstate}
@@ -79,13 +80,19 @@ function playstate.new()
   return instance
 end
 
+function playstate:onEnter(oldstate)
+  if clearstate.isclearstate(oldstate) then
+    self:changelevel(oldstate.nextlevel)
+  end
+end
+
 function playstate:keypressed(key)
   local intercept = false
   
   if key == 'up' then
     local portal = self.level:portalAt(self.player:hitbox():center())
     if portal ~= nil then
-      self:changelevel(portal.destination)
+      self:sm():push(clearstate.new(self.level.areaname, portal.destination))
       intercept = true
     end
   end
@@ -146,6 +153,7 @@ end
 
 function playstate:draw()
   if self.level.bgimage ~= nil then
+    love.graphics.setColor(255, 255, 255)
     love.graphics.draw(self.level.bgimage)
   end
   
