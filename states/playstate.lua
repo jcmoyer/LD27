@@ -20,6 +20,7 @@ local lifeHudH = lifeFont:getHeight()
 
 local hudLife = love.graphics.newImage('data/images/hudlife.png')
 local hudCoin = love.graphics.newImage('data/images/hudcoin.png')
+local hudClock = love.graphics.newImage('data/images/hudclock.png')
 
 local function lifetimeStr(x)
   local sec  = x
@@ -265,6 +266,7 @@ function playstate:draw()
   
   love.graphics.draw(hudCoin, 4, 2)
   love.graphics.draw(hudLife, love.graphics.getWidth() - 140 - 16, 2)
+  love.graphics.draw(hudClock, love.graphics.getWidth() - 65 - 16, 2)
   
   love.graphics.print(self.stats.coins, 24, 0)
   love.graphics.print(string.format('%05d', self.stats.lives), love.graphics.getWidth() - 140, 0)
