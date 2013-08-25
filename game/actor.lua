@@ -29,6 +29,7 @@ function actor.new(x, y)
     aset = nil,
     
     lethal = false,
+    alive  = true,
     
     hb = rectangle.new(x or 0, y or 0, 32, 64)
   }
@@ -156,6 +157,10 @@ function actor:update(level, dt)
   if self.aset ~= nil then
     self.aset:update(dt)
   end
+end
+
+function actor:kill()
+  self.alive = false
 end
 
 return actor
