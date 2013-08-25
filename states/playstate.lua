@@ -33,7 +33,7 @@ function playstate:spawnActor(kind, x, y)
   local ai      = aicontroller.new(a.controller, a)
   -- whoa this is ugly
   local instance = self
-  local context = actorcontext.new(a, self.player, function(...) instance:spawnActor(...) end)
+  local context = actorcontext.new(a, self.player, function(...) instance:spawnActor(...) end, self.stats)
   --self.ais[#self.ais + 1] = ai
   self.ais[#self.ais + 1] = {
     onTick = function(dt)
@@ -81,7 +81,7 @@ function playstate:changelevel(name)
     local ai      = aicontroller.new(self.level.actors[i].controller, self.level.actors[i])
     -- whoa this is ugly
     local instance = self
-    local context = actorcontext.new(self.level.actors[i], self.player, function(...) instance:spawnActor(...) end)
+    local context = actorcontext.new(self.level.actors[i], self.player, function(...) instance:spawnActor(...) end, self.stats)
     --self.ais[#self.ais + 1] = ai
     self.ais[#self.ais + 1] = {
       onTick = function(dt)

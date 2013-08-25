@@ -3,7 +3,7 @@ local sounds = require('game.sounds')
 -- provides an interface between the world and aicontroller
 local actorcontext = {}
 
-function actorcontext.new(actor, player, spawner)
+function actorcontext.new(actor, player, spawner, stats)
   local t = {}
   function t.move(direction)
     return actor:move(direction)
@@ -53,6 +53,15 @@ function actorcontext.new(actor, player, spawner)
   end
   function t.spawnActor(kind, x, y)
     return spawner(kind, x, y)
+  end
+  function t.giveLives(n)
+    stats.lives = stats.lives + n
+  end
+  function t.giveTime(n)
+    stats.lifetime = stats.lifetime + n
+  end
+  function t.giveCoins(n)
+    stats.coins = stats.coins + n
   end
   return t
 end
