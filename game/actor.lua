@@ -113,6 +113,11 @@ function actor:applyForce(direction, magnitude)
   end
 end
 
+function actor:applyVectorForce(vx, vy)
+  self.vx = self.vx + vx
+  self.vy = self.vy + vy
+end
+
 function actor:jump()
   if self.onground == true then
     self.onground = false

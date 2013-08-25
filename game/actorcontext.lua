@@ -11,6 +11,9 @@ function actorcontext.new(actor, player, spawner)
   function t.applyForce(direction, magnitude)
     return actor:applyForce(direction, magnitude)
   end
+  function t.applyVectorForce(vx, vy)
+    return actor:applyVectorForce(vx, vy)
+  end
   function t.jump()
     return actor:jump()
   end
