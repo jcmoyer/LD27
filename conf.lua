@@ -1,9 +1,9 @@
 function love.conf(t)
-  t.title = "LD27"
+  t.title = "Ten Magic Seconds"
   t.author = "J.C. Moyer"
   t.url = "https://github.com/jcmoyer/"
   -- name of save directory
-  t.identity = "jcmoyer-LD27"
+  t.identity = "TenMagSec"
   -- LÖVE version this game was made for
   t.version = "0.8.0"
   t.console = false
