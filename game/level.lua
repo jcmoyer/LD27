@@ -2,6 +2,7 @@ local tilemap = require('game.tilemap')
 local imageslicer = require('game.imageslicer')
 local path = require('game.path')
 local portal = require('game.portal')
+local actor = require('game.actor')
 
 local level = {}
 local mt = {__index = level}
@@ -34,6 +35,7 @@ function level:process(data)
   self.tileheight = data.tileheight
   
   self.portals = {}
+  self.actors  = {}
   
   for i = 1, #data.tilesets do
     self:processTileset(data.tilesets[i])
@@ -66,6 +68,8 @@ function level:processObjects(objects)
       self.playerspawn = object
     elseif object.type == 'portal' then
       self.portals[#self.portals + 1] = portal.new(object.x, object.y, object.properties.destination)
+    elseif object.type == 'actor' then
+      self.actors[#self.actors + 1] = actor.fromScript(object.properties.kind, object.x, object.y)
     end
   end
 end
