@@ -28,6 +28,12 @@ function actorcontext.new(actor, player)
   function t.playAnimation(name)
     return actor.aset:play(name)
   end
+  function t.atWall()
+    return actor.atwall
+  end
+  function t.onGround()
+    return actor.onground
+  end
   return t
 end
 
