@@ -124,14 +124,18 @@ function playstate:update(dt)
   for i = 1, #self.ais do
     self.ais[i](dt)
   end
-  for i = 1, #self.level.actors do
+  for i = #self.level.actors, 1, -1 do
     local actor = self.level.actors[i]
     -- Gravity
     actor:applyForce('down', 0.2)
     actor:update(self.level, dt)
     
-    if actor.lethal == true and actor:hitbox():intersects(playerHitbox) then
-      self:killPlayer()
+    if actor.alive then
+      if actor.lethal == true and actor:hitbox():intersects(playerHitbox) then
+        self:killPlayer()
+      end
+    else
+      table.remove(self.level.actors, i)
     end
   end
   
