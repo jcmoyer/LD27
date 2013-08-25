@@ -28,6 +28,8 @@ function actor.new(x, y)
     -- animation set
     aset = nil,
     
+    lethal = false,
+    
     hb = rectangle.new(x or 0, y or 0, 32, 64)
   }
   return setmetatable(instance, mt)
@@ -52,6 +54,8 @@ function actor.fromScript(name, x, y)
   
   instance.controller = t.controller
   instance.aset       = animationset.new(t.animation)
+  
+  instance.lethal = t.lethal or instance.lethal
   
   return instance
 end

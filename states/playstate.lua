@@ -130,7 +130,7 @@ function playstate:update(dt)
     actor:applyForce('down', 0.2)
     actor:update(self.level, dt)
     
-    if actor:hitbox():intersects(playerHitbox) then
+    if actor.lethal == true and actor:hitbox():intersects(playerHitbox) then
       self:killPlayer()
     end
   end

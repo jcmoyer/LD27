@@ -8,5 +8,7 @@ return {
   airacceleration    = 0,
   groundacceleration = 0.5,
   damping            = 0.95,
-  jumpvel            = 0
+  jumpvel            = 0,
+  
+  lethal = true
 }
