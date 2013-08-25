@@ -89,6 +89,15 @@ function level:solidAt(x, y)
   return self.foreground:at(tx, ty) ~= 0, tx * self.tilewidth, (ty - 1) * self.tileheight
 end
 
+function level:portalAt(x, y)
+  for i = 1, #self.portals do
+    local hitbox = self.portals[i]:hitbox()
+    if hitbox:contains(x, y) then
+      return self.portals[i]
+    end
+  end
+end
+
 function level:draw(camera)
   -- only draw what we can see
   -- this assumes that the love transform has been translated by the camera's position
