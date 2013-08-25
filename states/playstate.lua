@@ -67,7 +67,7 @@ function playstate.new()
     ais        = nil,
     
     coins      = 0,
-    lives      = 3,
+    lives      = 5,
     lifetime   = 10,
     
     camera = camera.new(love.graphics.getWidth(), love.graphics.getHeight())
