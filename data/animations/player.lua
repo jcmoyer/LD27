@@ -1,7 +1,7 @@
 local any = {0, 0, 32, 64}
 
 return {
-  image = 'player.png',
+  image = 'wizard.png',
   
   animations = {
     any = {
