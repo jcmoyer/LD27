@@ -23,4 +23,9 @@ function stats:deductLife()
   self.lifetime = 10
 end
 
+function stats:cap()
+  self.lives = math.min(self.lives, 99999)
+  self.lifetime = math.min(self.lifetime, 100)
+end
+
 return stats

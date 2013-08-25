@@ -120,7 +120,7 @@ function playstate.new()
   }
   setmetatable(instance, mt)
   
-  instance:changelevel('level04')
+  instance:changelevel('level01')
   
   return instance
 end
@@ -221,6 +221,7 @@ function playstate:update(dt)
   self.camera:update(dt)
   
   self.stats:update(dt)
+  self.stats:cap()
   
   if self.stats:lifeEnded() then
     self:killPlayer()
