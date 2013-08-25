@@ -31,7 +31,9 @@ function playstate:killPlayer()
   end
   
   local respawnArea = self.level:lastRespawn(self.player.x, self.player.y)
-  self.player.x, self.player.y = respawnArea:center()
+  local resx, resy  = respawnArea:center()
+  self.player.x = resx - self.player.w / 2
+  self.player.y = resy - self.player.h / 2
 end
 
 function playstate:changelevel(name)
