@@ -9,7 +9,7 @@ local mt = {__index = gameoverstate}
 local gameoverFont = fontpool.get(36)
 local gameoverSubFont = fontpool.get(16)
 
-local winMessage = 'Thanks for playing!'
+local winMessage = 'You win! Thanks for playing!'
 local winMessageWidth = gameoverFont:getWidth(winMessage)
 local winMessageHeight = gameoverFont:getHeight()
 
@@ -37,6 +37,9 @@ local function drawLoseMessage()
   
   love.graphics.setFont(gameoverFont)
   love.graphics.print(loseMessage, w / 2 - loseMessageWidth / 2, h / 2 - loseMessageHeight / 2)
+  
+  love.graphics.setFont(gameoverSubFont)
+  love.graphics.print(winSubmessage, w / 2 - winSubmessageWidth / 2, h / 2 - winMessageHeight / 2 + winMessageHeight + 8)
 end
 
 -- kind can be 'win' or 'lose'; defaults to 'lose'
