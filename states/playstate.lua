@@ -5,6 +5,7 @@ local camera = require('core.camera')
 local controller = require('game.controller')
 local mathex = require('core.extensions.math')
 local fontpool = require('core.fontpool')
+local gameoverstate = require('states.gameoverstate')
 
 local playstate = setmetatable({}, {__index = gamestate})
 local mt = {__index = playstate}
@@ -74,6 +75,11 @@ function playstate:update(dt)
   if self.lifetime <= 0 then
     self.lives    = self.lives - 1
     self.lifetime = 10
+    
+    if self.lives <= 0 then
+      self:sm():pop()
+      self:sm():push(gameoverstate.new())
+    end
   end
 end
 
