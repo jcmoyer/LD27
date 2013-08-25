@@ -59,7 +59,7 @@ end
 function level:processObjects(objects)
   for i = 1, #objects do
     local object = objects[i]
-    if object.name == 'playerspawn' then
+    if object.type == 'playerspawn' then
       self.playerspawn = object
     end
   end
