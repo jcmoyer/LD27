@@ -1,3 +1,6 @@
+local coinDropMin = 10
+local coinDropMax = 15
+
 local playwalk  = false
 local function onTick(context, dt)
   if not playwalk then
@@ -14,6 +17,15 @@ local function onTick(context, dt)
   end
 end
 
+local function onDie(context)
+  local x, y, w, h = context.dimensions()
+  local n = math.random(coinDropMin, coinDropMax)
+  for i = 1, n do
+    context.spawnActor('coin', x + w / 2, y + h / 2)
+  end
+end
+
 return {
-  onTick = onTick
+  onTick = onTick,
+  onDie  = onDie
 }
