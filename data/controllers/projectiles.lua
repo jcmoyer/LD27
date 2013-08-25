@@ -6,7 +6,7 @@ local function onTick(context, dt)
 end
 
 local function onCollide(context, actor)
-  if actor.controller == 'coin' or actor.controller == 'projectiles' then
+  if actor.controller == 'coin' or actor.controller == 'projectiles' or actor.controller == 'heart' then
     return
   end
   
