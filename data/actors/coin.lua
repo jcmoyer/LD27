@@ -8,5 +8,7 @@ return {
   airacceleration    = 0.5,
   groundacceleration = 0,
   damping            = 0.95,
-  jumpvel            = -5
+  jumpvel            = -5,
+  
+  playeronly         = true
 }
