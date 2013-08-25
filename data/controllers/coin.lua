@@ -2,6 +2,8 @@ local jumped = false
 
 local function onTouch(context)
   context.playSound('coin')
+  context.giveCoins(1)
+  context.giveTime(1)
   context.kill()
 end
 
