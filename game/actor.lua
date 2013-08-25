@@ -24,6 +24,19 @@ function actor.new(x, y)
   return setmetatable(instance, mt)
 end
 
+function actor.fromScript(name, x, y)
+  local chunk = love.filesystem.load('data/actors/' .. name .. '.lua')
+  local t     = chunk()
+  
+  local instance        = actor.new(x, y)
+  instance.maxspeed     = t.maxspeed or instance.maxspeed
+  instance.acceleration = t.acceleration or instance.acceleration
+  instance.damping      = t.damping or instance.damping
+  instance.jumpvel      = t.jumpvel or instance.jumpvel
+  
+  return instance
+end
+
 function actor:hitbox()
   local hitbox = self.hb
   hitbox.x = self.x
