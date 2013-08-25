@@ -32,6 +32,8 @@ function actor.new(x, y)
     lethal = false,
     alive  = true,
     
+    facing = 'right',
+    
     hb = rectangle.new(x or 0, y or 0, 32, 64)
   }
   return setmetatable(instance, mt)
@@ -63,6 +65,14 @@ function actor.fromScript(name, x, y)
   return instance
 end
 
+function actor:facingScaleX()
+  if self.facing == 'right' then
+    return -1
+  else
+    return 1
+  end
+end
+
 function actor:hitbox()
   local hitbox = self.hb
   hitbox.x = self.x
@@ -83,6 +93,12 @@ function actor:move(direction)
     self.vx = self.vx + acceleration
   end
   self.vx = mathex.clamp(self.vx, -self.maxspeed, self.maxspeed)
+  
+  if self.vx < 0 then
+    self.facing = 'left'
+  else
+    self.facing = 'right'
+  end
 end
 
 function actor:applyForce(direction, magnitude)

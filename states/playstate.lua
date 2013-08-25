@@ -10,6 +10,7 @@ local actorcontext = require('game.actorcontext')
 local gameoverstate = require('states.gameoverstate')
 local clearstate = require('states.clearstate')
 local sounds = require('game.sounds')
+local stats = require('game.stats')
 
 local playstate = setmetatable({}, {__index = gamestate})
 local mt = {__index = playstate}
@@ -46,15 +47,16 @@ function playstate:spawnActor(kind, x, y)
     end
   }
   self.actorais[a] = self.ais[#self.ais]
+  
+  return a, ai
 end
 
 function playstate:killPlayer()
   sounds.play('death')
   
-  self.lives    = self.lives - 1
-  self.lifetime = 10
+  self.stats:deductLife()
   
-  if self.lives <= 0 then
+  if self.stats.lives <= 0 then
     self:sm():pop()
     self:sm():push(gameoverstate.new())
   end
@@ -105,9 +107,7 @@ function playstate.new()
     ais        = nil,
     actorais   = nil,
     
-    coins      = 0,
-    lives      = 5,
-    lifetime   = 10,
+    stats = stats.new(),
     
     camera = camera.new(love.graphics.getWidth(), love.graphics.getHeight())
   }
@@ -133,6 +133,14 @@ function playstate:keypressed(key)
       self:sm():push(clearstate.new(self.level.areaname, portal.destination))
       intercept = true
     end
+  end
+  
+  if key == 'z' then
+    local x, y = self.player:hitbox():center()
+    local a, c = self:spawnActor('projectiles', x, y)
+    a:applyForce('right', 5)
+    
+    intercept = true
   end
   
   if intercept == false then
@@ -187,9 +195,9 @@ function playstate:update(dt)
   self.camera.x = mathex.clamp(self.camera.x, -self.level.width  * self.level.tilewidth  + love.graphics.getWidth(), 0)
   self.camera.y = mathex.clamp(self.camera.y, -self.level.height * self.level.tileheight + love.graphics.getHeight(), 0)
   
-  self.lifetime = self.lifetime - dt
+  self.stats:update(dt)
   
-  if self.lifetime <= 0 then
+  if self.stats:lifeEnded() then
     self:killPlayer()
   end
   
@@ -213,12 +221,16 @@ function playstate:draw()
   -- draw player
   love.graphics.setColor(255, 255, 255)
   local x, y = self.player:hitbox():unpack()
-  love.graphics.drawq(self.player.aset.image, self.player.aset:currentQuad(), math.floor(x), math.floor(y))
+  
+  local hw = self.player.w / 2
+  love.graphics.drawq(self.player.aset.image, self.player.aset:currentQuad(), math.floor(x) + hw, math.floor(y), 0, self.player:facingScaleX(), 1, hw)
   
   for i = 1, #self.level.actors do
     local actor = self.level.actors[i]
     local x, y = actor:hitbox():unpack()
-    love.graphics.drawq(actor.aset.image, actor.aset:currentQuad(), math.floor(x), math.floor(y))
+    
+    local hw = actor.w / 2
+    love.graphics.drawq(actor.aset.image, actor.aset:currentQuad(), math.floor(x) + hw, math.floor(y), 0, actor:facingScaleX(), 1, hw)
   end
   
   self.level:drawFringe(self.camera)
@@ -236,9 +248,9 @@ function playstate:draw()
   love.graphics.draw(hudCoin, 4, 2)
   love.graphics.draw(hudLife, love.graphics.getWidth() - 140 - 16, 2)
   
-  love.graphics.print(self.coins, 24, 0)
-  love.graphics.print(string.format('%05d', self.lives), love.graphics.getWidth() - 140, 0)
-  love.graphics.print(lifetimeStr(self.lifetime), love.graphics.getWidth() - 65, 0)
+  love.graphics.print(self.stats.coins, 24, 0)
+  love.graphics.print(string.format('%05d', self.stats.lives), love.graphics.getWidth() - 140, 0)
+  love.graphics.print(lifetimeStr(self.stats.lifetime), love.graphics.getWidth() - 65, 0)
 end
 
 return playstate
