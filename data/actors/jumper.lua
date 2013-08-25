@@ -1,5 +1,5 @@
 return {
-  image      = 'jumper.png',
+  animation  = 'jumper',
   controller = 'jumper',
   
   hitbox     = {0, 0, 32, 32},
