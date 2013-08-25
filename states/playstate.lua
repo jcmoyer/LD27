@@ -5,6 +5,8 @@ local camera = require('core.camera')
 local controller = require('game.controller')
 local mathex = require('core.extensions.math')
 local fontpool = require('core.fontpool')
+local aicontroller = require('game.aicontroller')
+local actorcontext = require('game.actorcontext')
 local gameoverstate = require('states.gameoverstate')
 
 local playstate = setmetatable({}, {__index = gamestate})
@@ -22,6 +24,18 @@ end
 function playstate:changelevel(name)
   self.level  = level.new(name)
   self.player = player.new(self.level.playerspawn.x, self.level.playerspawn.y)
+  
+  -- build ai controllers
+  self.ais    = {}
+  for i = 1, #self.level.actors do
+    local ai      = aicontroller.new('jumper', self.level.actors[i])
+    local context = actorcontext.new(self.level.actors[i], self.player)
+    --self.ais[#self.ais + 1] = ai
+    self.ais[#self.ais + 1] = function(dt)
+      ai:update(context, dt)
+    end
+  end
+  
   self.camera:center(self.player.x, self.player.y)
   self.controller = controller.new(self.player)
 end
@@ -32,6 +46,7 @@ function playstate.new()
     level      = nil,
     player     = nil,
     controller = nil,
+    ais        = nil,
     
     lives      = 3,
     lifetime   = 10,
@@ -75,6 +90,15 @@ function playstate:update(dt)
   player:applyForce('down', 0.2)
   player:update(self.level)
   
+  for i = 1, #self.ais do
+    self.ais[i](dt)
+  end
+  for i = 1, #self.level.actors do
+    -- Gravity
+    self.level.actors[i]:applyForce('down', 0.2)
+    self.level.actors[i]:update(self.level)
+  end
+  
   -- Pan camera to player's position gradually
   self.camera:panCenter(player.x, player.y, dt * 3)
   
@@ -104,6 +128,10 @@ function playstate:draw()
   -- draw player
   love.graphics.setColor(255, 255, 255)
   love.graphics.rectangle('fill', self.player:hitbox():unpack())
+  
+  for i = 1, #self.level.actors do
+    love.graphics.rectangle('fill', self.level.actors[i]:hitbox():unpack())
+  end
   
   love.graphics.pop()
   
