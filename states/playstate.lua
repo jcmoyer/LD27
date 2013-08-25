@@ -146,6 +146,7 @@ function playstate:keypressed(key)
     local x, y = self.player:hitbox():center()
     local a, c = self:spawnActor('projectiles', x, y)
     
+    sounds.play('projectile')
     a.facing = self.player.facing
     a:applyForce(self.player.facing, 7)
     
