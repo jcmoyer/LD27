@@ -82,7 +82,7 @@ end
 
 function playstate:update(dt)
   local player = self.player
-  
+
   -- Apply player input
   self.controller:update(dt)
   
@@ -96,7 +96,7 @@ function playstate:update(dt)
   for i = 1, #self.level.actors do
     -- Gravity
     self.level.actors[i]:applyForce('down', 0.2)
-    self.level.actors[i]:update(self.level)
+    self.level.actors[i]:update(self.level, dt)
   end
   
   -- Pan camera to player's position gradually
@@ -130,7 +130,9 @@ function playstate:draw()
   love.graphics.rectangle('fill', self.player:hitbox():unpack())
   
   for i = 1, #self.level.actors do
-    love.graphics.rectangle('fill', self.level.actors[i]:hitbox():unpack())
+    local actor = self.level.actors[i]
+    local x, y = actor:hitbox():unpack()
+    love.graphics.drawq(actor.aset.image, actor.aset:currentQuad(), x, y)
   end
   
   love.graphics.pop()
