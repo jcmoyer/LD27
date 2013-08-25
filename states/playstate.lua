@@ -33,7 +33,7 @@ function playstate:spawnActor(kind, x, y)
   local ai      = aicontroller.new(a.controller, a)
   -- whoa this is ugly
   local instance = self
-  local context = actorcontext.new(a, self.player, function(...) instance:spawnActor(...) end, self.stats)
+  local context = actorcontext.new(a, self.player, function(...) instance:spawnActor(...) end, self.stats, self.camera)
   --self.ais[#self.ais + 1] = ai
   self.ais[#self.ais + 1] = {
     onTick = function(dt)
@@ -81,7 +81,7 @@ function playstate:changelevel(name)
     local ai      = aicontroller.new(self.level.actors[i].controller, self.level.actors[i])
     -- whoa this is ugly
     local instance = self
-    local context = actorcontext.new(self.level.actors[i], self.player, function(...) instance:spawnActor(...) end, self.stats)
+    local context = actorcontext.new(self.level.actors[i], self.player, function(...) instance:spawnActor(...) end, self.stats, self.camera)
     --self.ais[#self.ais + 1] = ai
     self.ais[#self.ais + 1] = {
       onTick = function(dt)
@@ -211,6 +211,8 @@ function playstate:update(dt)
   self.camera.x = mathex.clamp(self.camera.x, -self.level.width  * self.level.tilewidth  + love.graphics.getWidth(), 0)
   self.camera.y = mathex.clamp(self.camera.y, -self.level.height * self.level.tileheight + love.graphics.getHeight(), 0)
   
+  self.camera:update(dt)
+  
   self.stats:update(dt)
   
   if self.stats:lifeEnded() then
@@ -231,7 +233,7 @@ function playstate:draw()
   
   love.graphics.push()
   
-  love.graphics.translate(math.floor(self.camera.x), math.floor(self.camera.y))
+  love.graphics.translate(math.floor(self.camera:calculatedX()), math.floor(self.camera:calculatedY()))
   self.level:draw(self.camera)
   
   -- draw player

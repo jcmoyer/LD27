@@ -3,7 +3,7 @@ local sounds = require('game.sounds')
 -- provides an interface between the world and aicontroller
 local actorcontext = {}
 
-function actorcontext.new(actor, player, spawner, stats)
+function actorcontext.new(actor, player, spawner, stats, camera)
   local t = {}
   function t.move(direction)
     return actor:move(direction)
@@ -62,6 +62,9 @@ function actorcontext.new(actor, player, spawner, stats)
   end
   function t.giveCoins(n)
     stats.coins = stats.coins + n
+  end
+  function t.shakeCamera(duration, magnitude)
+    camera:shake(duration, magnitude)
   end
   return t
 end
