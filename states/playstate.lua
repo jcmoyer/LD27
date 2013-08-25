@@ -133,6 +133,11 @@ function playstate:update(dt)
   if self.lifetime <= 0 then
     self:killPlayer()
   end
+  
+  -- kill the player if he falls to 120% of the map's height
+  if self.player.y > self.level.height * self.level.tileheight * 1.2 then
+    self:killPlayer()
+  end
 end
 
 function playstate:draw()
