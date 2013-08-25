@@ -134,6 +134,10 @@ function playstate:update(dt)
 end
 
 function playstate:draw()
+  if self.level.bgimage ~= nil then
+    love.graphics.draw(self.level.bgimage)
+  end
+  
   love.graphics.push()
   
   love.graphics.translate(math.floor(self.camera.x), math.floor(self.camera.y))
