@@ -132,7 +132,7 @@ function playstate:draw()
   for i = 1, #self.level.actors do
     local actor = self.level.actors[i]
     local x, y = actor:hitbox():unpack()
-    love.graphics.drawq(actor.aset.image, actor.aset:currentQuad(), x, y)
+    love.graphics.drawq(actor.aset.image, actor.aset:currentQuad(), math.floor(x), math.floor(y))
   end
   
   love.graphics.pop()
