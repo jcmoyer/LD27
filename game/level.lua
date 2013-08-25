@@ -58,6 +58,8 @@ end
 function level:processLayer(layer)
   if layer.type == 'tilelayer' and layer.name == 'foreground' then
     self.foreground = tilemap.new(layer.data, layer.width, layer.height)
+  elseif layer.type == 'tilelayer' and layer.name == 'background' then
+    self.background = tilemap.new(layer.data, layer.width, layer.height)
   elseif layer.type == 'objectgroup' and layer.name == 'objects' then
     self:processObjects(layer.objects)
   end
@@ -147,6 +149,18 @@ function level:draw(camera)
   maxx = math.min(self.width,  math.ceil((-camera.x + camera.w) / 32))
   miny = math.max(0,           math.floor(-camera.y / 32))
   maxy = math.min(self.height, math.ceil((-camera.y + camera.h) / 32))
+  
+  if self.background ~= nil then
+    love.graphics.setColor(128, 128, 128)
+    for y = miny, maxy do
+      for x = minx, maxx - 1 do
+        local tid = self.background:at(x+1, y)
+        if tid > 0 then
+          love.graphics.drawq(self.image, self.quads[tid], x * 32, (y - 1) * 32)
+        end
+      end
+    end
+  end
   
   love.graphics.setColor(255, 255, 255)
   for y = miny, maxy do
