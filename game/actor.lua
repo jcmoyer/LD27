@@ -39,6 +39,12 @@ function actor.fromScript(name, x, y)
   instance.damping            = t.damping or instance.damping
   instance.jumpvel            = t.jumpvel or instance.jumpvel
   
+  if t.hitbox then
+    instance.hb = rectangle.new(unpack(t.hitbox))
+    instance.w  = instance.hb.w
+    instance.h  = instance.hb.h
+  end
+  
   instance.controller = t.controller
   
   return instance
