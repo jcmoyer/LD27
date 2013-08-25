@@ -25,6 +25,9 @@ function actorcontext.new(actor, player)
       return 'left'
     end
   end
+  function t.playAnimation(name)
+    return actor.aset:play(name)
+  end
   return t
 end
 
