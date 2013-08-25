@@ -1,5 +1,5 @@
 local playwalk  = false
-return function(context, dt)
+local function onTick(context, dt)
   if not playwalk then
     context.playAnimation('walk')
     playwalk = true
@@ -13,3 +13,7 @@ return function(context, dt)
     context.move(context.playerDirection())
   end
 end
+
+return {
+  onTick = onTick
+}

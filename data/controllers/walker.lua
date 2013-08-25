@@ -9,7 +9,7 @@ local function switchDirection()
   end
 end
 
-return function(context, dt)
+local function onTick(context, dt)
   if not playwalk then
     context.playAnimation('walk')
     playwalk = true
@@ -19,3 +19,7 @@ return function(context, dt)
   end
   context.move(direction)
 end
+
+return {
+  onTick = onTick
+}

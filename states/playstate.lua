@@ -48,14 +48,21 @@ function playstate:changelevel(name)
   self.player = player.new(self.level.playerspawn.x, self.level.playerspawn.y)
   
   -- build ai controllers
-  self.ais    = {}
+  self.ais      = {}
+  self.actorais = {}
   for i = 1, #self.level.actors do
     local ai      = aicontroller.new(self.level.actors[i].controller, self.level.actors[i])
     local context = actorcontext.new(self.level.actors[i], self.player)
     --self.ais[#self.ais + 1] = ai
-    self.ais[#self.ais + 1] = function(dt)
-      ai:update(context, dt)
-    end
+    self.ais[#self.ais + 1] = {
+      onTick = function(dt)
+        ai:onTick(context, dt)
+      end,
+      onTouch = function()
+        ai:onTouch(context)
+      end
+    }
+    self.actorais[self.level.actors[i]] = self.ais[#self.ais]
   end
   
   self.camera:center(self.player.x, self.player.y)
@@ -69,6 +76,7 @@ function playstate.new()
     player     = nil,
     controller = nil,
     ais        = nil,
+    actorais   = nil,
     
     coins      = 0,
     lives      = 5,
@@ -122,7 +130,7 @@ function playstate:update(dt)
   local playerHitbox = player:hitbox()
   
   for i = 1, #self.ais do
-    self.ais[i](dt)
+    self.ais[i].onTick(dt)
   end
   for i = #self.level.actors, 1, -1 do
     local actor = self.level.actors[i]
@@ -131,8 +139,11 @@ function playstate:update(dt)
     actor:update(self.level, dt)
     
     if actor.alive then
-      if actor.lethal == true and actor:hitbox():intersects(playerHitbox) then
-        self:killPlayer()
+      if actor:hitbox():intersects(playerHitbox) then
+        self.actorais[self.level.actors[i]].onTouch()
+        if actor.lethal == true then
+          self:killPlayer()
+        end
       end
     else
       table.remove(self.level.actors, i)
