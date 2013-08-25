@@ -1,3 +1,5 @@
+local sounds = require('game.sounds')
+
 -- provides an interface between the world and aicontroller
 local actorcontext = {}
 
@@ -36,6 +38,9 @@ function actorcontext.new(actor, player)
   end
   function t.onGround()
     return actor.onground
+  end
+  function t.playSound(name)
+    return sounds.play(name)
   end
   return t
 end
