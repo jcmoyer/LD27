@@ -20,6 +20,9 @@ function actor.new(x, y)
     jumpvel            = -7,
     onground           = false,
     
+    -- only used for scripted actors
+    controller = nil,
+    
     hb = rectangle.new(x or 0, y or 0, 32, 64)
   }
   return setmetatable(instance, mt)
@@ -35,6 +38,8 @@ function actor.fromScript(name, x, y)
   instance.groundacceleration = t.groundacceleration or instance.groundacceleration
   instance.damping            = t.damping or instance.damping
   instance.jumpvel            = t.jumpvel or instance.jumpvel
+  
+  instance.controller = t.controller
   
   return instance
 end
