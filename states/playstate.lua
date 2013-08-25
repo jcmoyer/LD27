@@ -28,7 +28,7 @@ function playstate:changelevel(name)
   -- build ai controllers
   self.ais    = {}
   for i = 1, #self.level.actors do
-    local ai      = aicontroller.new('jumper', self.level.actors[i])
+    local ai      = aicontroller.new(self.level.actors[i].controller, self.level.actors[i])
     local context = actorcontext.new(self.level.actors[i], self.player)
     --self.ais[#self.ais + 1] = ai
     self.ais[#self.ais + 1] = function(dt)
