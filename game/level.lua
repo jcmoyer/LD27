@@ -94,7 +94,7 @@ function level:draw(camera)
   maxy = math.min(self.height, math.ceil((-camera.y + camera.h) / 32))
   
   for y = miny, maxy do
-    for x = minx, maxx do
+    for x = minx, maxx - 1 do
       local tid = self.foreground:at(x+1, y)
       if tid > 0 then
         love.graphics.drawq(self.image, self.quads[tid], (x) * 32, (y-1) * 32)
