@@ -46,7 +46,19 @@ function playstate.new()
 end
 
 function playstate:keypressed(key)
-  self.controller:keypressed(key)
+  local intercept = false
+  
+  if key == 'up' then
+    local portal = self.level:portalAt(self.player:hitbox():center())
+    if portal ~= nil then
+      self:changelevel(portal.destination)
+      intercept = true
+    end
+  end
+  
+  if intercept == false then
+    self.controller:keypressed(key)
+  end
 end
 
 function playstate:keyreleased(key)
