@@ -1,3 +1,8 @@
+local coinDropMin = 1
+local coinDropMax = 3
+local heartDropMin = 0
+local heartDropMax = 1
+
 local playwalk  = false
 local direction = 'left'
 
@@ -20,6 +25,19 @@ local function onTick(context, dt)
   context.move(direction)
 end
 
+local function onDie(context)
+  local x, y, w, h = context.dimensions()
+  local n = math.random(coinDropMin, coinDropMax)
+  for i = 1, n do
+    context.spawnActor('coin', x + w / 2, y + h / 2)
+  end
+  n = math.random(heartDropMin, heartDropMax)
+  for i = 1, n do
+    context.spawnActor('heart', x + w / 2, y + h / 2)
+  end
+end
+
 return {
-  onTick = onTick
+  onTick = onTick,
+  onDie  = onDie
 }

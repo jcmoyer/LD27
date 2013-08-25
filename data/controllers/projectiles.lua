@@ -5,6 +5,10 @@ local function onTick(context, dt)
 end
 
 local function onCollide(context, actor)
+  if actor.controller == 'coin' or actor.controller == 'projectiles' then
+    return
+  end
+  
   context.kill()
   actor:kill()
 end
