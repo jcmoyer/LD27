@@ -25,7 +25,7 @@ end
 
 function stats:cap()
   self.lives = math.min(self.lives, 99999)
-  self.lifetime = math.min(self.lifetime, 100)
+  self.lifetime = math.min(self.lifetime, 10)
 end
 
 return stats
