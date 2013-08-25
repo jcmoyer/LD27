@@ -37,10 +37,10 @@ function actorcontext.new(actor, player, spawner, stats)
     return actor.aset:play(name)
   end
   function t.atWall()
-    return actor.atwall
+    return actor.alive and actor.atwall
   end
   function t.onGround()
-    return actor.onground
+    return actor.alive and actor.onground
   end
   function t.playSound(name)
     return sounds.play(name)
