@@ -66,6 +66,7 @@ function playstate.new()
     controller = nil,
     ais        = nil,
     
+    coins      = 0,
     lives      = 3,
     lifetime   = 10,
     
@@ -176,6 +177,8 @@ function playstate:draw()
   
   love.graphics.draw(hudCoin, 4, 2)
   love.graphics.draw(hudLife, love.graphics.getWidth() - 140 - 16, 2)
+  
+  love.graphics.print(self.coins, 24, 0)
   love.graphics.print(string.format('%05d', self.lives), love.graphics.getWidth() - 140, 0)
   love.graphics.print(lifetimeStr(self.lifetime), love.graphics.getWidth() - 65, 0)
 end
