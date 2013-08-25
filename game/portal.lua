@@ -9,7 +9,7 @@ function portal.new(x, y, destination, wins)
     y = y,
     destination = destination,
     hb = rectangle.new(x, y, 64, 96),
-    wins = false
+    wins = wins
   }
   return setmetatable(instance, mt)
 end

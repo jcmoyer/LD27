@@ -120,7 +120,7 @@ function playstate.new()
   }
   setmetatable(instance, mt)
   
-  instance:changelevel('level01')
+  instance:changelevel('level04')
   
   return instance
 end
@@ -137,7 +137,12 @@ function playstate:keypressed(key)
   if key == 'up' then
     local portal = self.level:portalAt(self.player:hitbox():center())
     if portal ~= nil then
-      self:sm():push(clearstate.new(self.level.areaname, portal.destination))
+      if portal.wins then
+        self:sm():pop()
+        self:sm():push(gameoverstate.new('win'))
+      else
+        self:sm():push(clearstate.new(self.level.areaname, portal.destination))
+      end
       intercept = true
     end
   end
