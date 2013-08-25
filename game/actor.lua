@@ -13,11 +13,12 @@ function actor.new(x, y)
     vx = 0,
     vy = 0,
     
-    maxspeed     = 5,
-    acceleration = 1,
-    damping      = 0.8,
-    jumpvel      = -7,
-    onground     = false,
+    maxspeed           = 5,
+    airacceleration    = 1,
+    groundacceleration = 1,
+    damping            = 0.8,
+    jumpvel            = -7,
+    onground           = false,
     
     hb = rectangle.new(x or 0, y or 0, 32, 64)
   }
@@ -28,11 +29,12 @@ function actor.fromScript(name, x, y)
   local chunk = love.filesystem.load('data/actors/' .. name .. '.lua')
   local t     = chunk()
   
-  local instance        = actor.new(x, y)
-  instance.maxspeed     = t.maxspeed or instance.maxspeed
-  instance.acceleration = t.acceleration or instance.acceleration
-  instance.damping      = t.damping or instance.damping
-  instance.jumpvel      = t.jumpvel or instance.jumpvel
+  local instance              = actor.new(x, y)
+  instance.maxspeed           = t.maxspeed or instance.maxspeed
+  instance.airacceleration    = t.airacceleration or instance.airacceleration
+  instance.groundacceleration = t.groundacceleration or instance.groundacceleration
+  instance.damping            = t.damping or instance.damping
+  instance.jumpvel            = t.jumpvel or instance.jumpvel
   
   return instance
 end
@@ -45,10 +47,16 @@ function actor:hitbox()
 end
 
 function actor:move(direction)
+  local acceleration
+  if self.onground then
+    acceleration = self.groundacceleration
+  else
+    acceleration = self.airacceleration
+  end
   if direction == 'left' then
-    self.vx = self.vx - self.acceleration
+    self.vx = self.vx - acceleration
   elseif direction == 'right' then
-    self.vx = self.vx + self.acceleration
+    self.vx = self.vx + acceleration
   end
   self.vx = mathex.clamp(self.vx, -self.maxspeed, self.maxspeed)
 end
