@@ -1,8 +1,19 @@
 local aicontroller = {}
 local mt = {__index = aicontroller}
 
-local function safeCall(t, name, ...)
-  local f = t[name]
+function aicontroller:safeCall(name, ...)
+  if not self.actor.alive then
+    return
+  end
+  
+  local f = self.t[name]
+  if f ~= nil then
+    f(...)
+  end
+end
+
+function aicontroller:safeCallDead(name, ...)
+  local f = self.t[name]
   if f ~= nil then
     f(...)
   end
@@ -18,19 +29,19 @@ function aicontroller.new(name, actor)
 end
 
 function aicontroller:onTick(context, dt)
-  self.t.onTick(context, dt)
+  self:safeCall('onTick', context, dt)
 end
 
 function aicontroller:onTouch(context)
-  safeCall(self.t, 'onTouch', context)
+  self:safeCall('onTouch', context)
 end
 
 function aicontroller:onDie(context)
-  safeCall(self.t, 'onDie', context)
+  self:safeCallDead('onDie', context)
 end
 
 function aicontroller:onCollide(context, actorB)
-  safeCall(self.t, 'onCollide', context, actorB)
+  self:safeCall('onCollide', context, actorB)
 end
 
 return aicontroller
