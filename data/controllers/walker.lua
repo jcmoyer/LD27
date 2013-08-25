@@ -1,9 +1,21 @@
-local walkonce = false
+local playwalk  = false
+local direction = 'left'
+
+local function switchDirection()
+  if direction == 'left' then
+    direction = 'right'
+  else
+    direction = 'left'
+  end
+end
 
 return function(context, dt)
-  if not walkonce then
+  if not playwalk then
     context.playAnimation('walk')
-    walkonce = true
+    playwalk = true
   end
-  context.move(context.playerDirection())
+  if context.atWall() then
+    switchDirection()
+  end
+  context.move(direction)
 end
