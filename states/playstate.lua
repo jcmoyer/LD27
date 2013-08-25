@@ -165,6 +165,8 @@ function playstate:draw()
     love.graphics.drawq(actor.aset.image, actor.aset:currentQuad(), math.floor(x), math.floor(y))
   end
   
+  self.level:drawFringe(self.camera)
+  
   love.graphics.pop()
   
   love.graphics.setColor(0, 0, 0, 128)

@@ -64,6 +64,8 @@ function level:processLayer(layer)
     self.foreground = tilemap.new(layer.data, layer.width, layer.height)
   elseif layer.type == 'tilelayer' and layer.name == 'background' then
     self.background = tilemap.new(layer.data, layer.width, layer.height)
+  elseif layer.type == 'tilelayer' and layer.name == 'fringe' then
+    self.fringe = tilemap.new(layer.data, layer.width, layer.height)
   elseif layer.type == 'objectgroup' and layer.name == 'objects' then
     self:processObjects(layer.objects)
   end
@@ -175,11 +177,27 @@ function level:draw(camera)
       end
     end
   end
+end
+
+function level:drawFringe(camera)
+  if self.fringe == nil then
+    return
+  end
   
-  -- TODO: Replace with some sort of portal graphic?
-  love.graphics.setColor(0, 0, 180)
-  for i = 1, #self.portals do
-    love.graphics.rectangle('fill', self.portals[i].x, self.portals[i].y, 64, 96)
+  local minx, maxx, miny, maxy
+  minx = math.max(0,           math.floor(-camera.x / 32))
+  maxx = math.min(self.width,  math.ceil((-camera.x + camera.w) / 32))
+  miny = math.max(0,           math.floor(-camera.y / 32))
+  maxy = math.min(self.height, math.ceil((-camera.y + camera.h) / 32))
+  
+  love.graphics.setColor(255, 255, 255)
+  for y = miny, maxy do
+    for x = minx, maxx - 1 do
+      local tid = self.fringe:at(x+1, y)
+      if tid > 0 then
+        love.graphics.drawq(self.image, self.quads[tid], (x) * 32, (y-1) * 32)
+      end
+    end
   end
 end
 
