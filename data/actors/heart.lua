@@ -1,6 +1,6 @@
 return {
   animation  = 'heart',
-  controller = 'coin',
+  controller = 'heart',
   
   hitbox     = {0, 0, 32, 32},
   
