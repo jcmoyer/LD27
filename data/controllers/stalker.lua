@@ -5,6 +5,10 @@ return function(context, dt)
     playwalk = true
   end
   
+  if context.atWall() then
+    context.jump()
+  end
+  
   if context.playerDistance() <= 300 then
     context.move(context.playerDirection())
   end
