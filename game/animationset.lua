@@ -15,7 +15,11 @@ function animationset.new(name)
   end
   
   -- get the first animation name
-  local first = pairs(t.animations)
+  local first
+  for k,v in pairs(t.animations) do
+    first = k
+    break
+  end
   
   local instance = {
     image = image,
