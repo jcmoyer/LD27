@@ -44,6 +44,9 @@ function playstate:spawnActor(kind, x, y)
     end,
     onDie = function()
       ai:onDie(context)
+    end,
+    onCollide = function(actorB)
+      ai:onCollide(context, actorB)
     end
   }
   self.actorais[a] = self.ais[#self.ais]
@@ -89,6 +92,9 @@ function playstate:changelevel(name)
       end,
       onDie = function()
         ai:onDie(context)
+      end,
+      onCollide = function(actorB)
+        ai:onCollide(context, actorB)
       end
     }
     self.actorais[self.level.actors[i]] = self.ais[#self.ais]
@@ -169,6 +175,14 @@ function playstate:update(dt)
   end
   for i = #self.level.actors, 1, -1 do
     local actor = self.level.actors[i]
+    
+    for j = i - 1, 1, -1 do
+      local actorB = self.level.actors[j]
+      if actor:hitbox():intersects(actorB:hitbox()) then
+        self.actorais[self.level.actors[i]].onCollide(actorB)
+      end
+    end
+    
     -- Gravity
     if actor.ignoregravity == false then
       actor:applyForce('down', 0.2)

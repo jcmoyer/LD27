@@ -29,4 +29,8 @@ function aicontroller:onDie(context)
   safeCall(self.t, 'onDie', context)
 end
 
+function aicontroller:onCollide(context, actorB)
+  safeCall(self.t, 'onCollide', context, actorB)
+end
+
 return aicontroller
