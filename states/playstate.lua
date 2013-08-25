@@ -74,7 +74,7 @@ function playstate.new()
   }
   setmetatable(instance, mt)
   
-  instance:changelevel('level01.lua')
+  instance:changelevel('level01')
   
   return instance
 end
