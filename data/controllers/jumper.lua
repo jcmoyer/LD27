@@ -1,7 +1,7 @@
-local coinDropMin = 5
-local coinDropMax = 15
-local heartDropMin = 2
-local heartDropMax = 4
+local coinDropMin = 2
+local coinDropMax = 8
+local heartDropMin = 1
+local heartDropMax = 3
 
 local function onTick(context, dt)
   if context.playerDistance() < 500 then
