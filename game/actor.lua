@@ -33,6 +33,7 @@ function actor.new(x, y)
     alive  = true,
     
     facing = 'right',
+    playeronly = false,
     
     hb = rectangle.new(x or 0, y or 0, 32, 64)
   }
@@ -61,6 +62,7 @@ function actor.fromScript(name, x, y)
   instance.aset       = animationset.new(t.animation)
   
   instance.lethal = t.lethal or instance.lethal
+  instance.playeronly = t.playeronly or instance.playeronly
   
   return instance
 end

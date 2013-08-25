@@ -185,10 +185,12 @@ function playstate:update(dt)
   for i = #self.level.actors, 1, -1 do
     local actor = self.level.actors[i]
     
-    for j = i - 1, 1, -1 do
-      local actorB = self.level.actors[j]
-      if actor:hitbox():intersects(actorB:hitbox()) then
-        self.actorais[self.level.actors[i]].onCollide(actorB)
+    if not actor.playeronly then
+      for j = i - 1, 1, -1 do
+        local actorB = self.level.actors[j]
+        if actor:hitbox():intersects(actorB:hitbox()) then
+          self.actorais[self.level.actors[i]].onCollide(actorB)
+        end
       end
     end
     
