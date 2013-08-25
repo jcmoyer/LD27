@@ -26,6 +26,17 @@ function rectangle:intersects(r)
               self:right() < r.x)
 end
 
+function rectangle:contains(x, y)
+  return x >= self.x       and
+         x <= self:right() and
+         y >= self.y       and
+         y <= self:bottom()
+end
+
+function rectangle:center()
+  return self.x + self.w / 2, self.y + self.h / 2
+end
+
 function rectangle:unpack()
   return self.x, self.y, self.w, self.h
 end
