@@ -15,6 +15,9 @@ local mt = {__index = playstate}
 local lifeFont = fontpool.get(18)
 local lifeHudH = lifeFont:getHeight()
 
+local hudLife = love.graphics.newImage('data/images/hudlife.png')
+local hudCoin = love.graphics.newImage('data/images/hudcoin.png')
+
 local function lifetimeStr(x)
   local sec  = x
   local msec = 1000 * (x - math.floor(x))
@@ -164,10 +167,15 @@ function playstate:draw()
   love.graphics.pop()
   
   love.graphics.setColor(0, 0, 0, 128)
-  love.graphics.rectangle('fill', love.graphics.getWidth() - 145, 0, 145, lifeHudH)
+  love.graphics.rectangle('fill', 0, 0, love.graphics.getWidth(), lifeHudH)
+  
+  
   
   love.graphics.setColor(255, 255, 255, 255)
   love.graphics.setFont(lifeFont)
+  
+  love.graphics.draw(hudCoin, 4, 2)
+  love.graphics.draw(hudLife, love.graphics.getWidth() - 140 - 16, 2)
   love.graphics.print(string.format('%05d', self.lives), love.graphics.getWidth() - 140, 0)
   love.graphics.print(lifetimeStr(self.lifetime), love.graphics.getWidth() - 65, 0)
 end
