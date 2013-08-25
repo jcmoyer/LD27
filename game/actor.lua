@@ -1,5 +1,6 @@
 local rectangle = require('game.rectangle')
 local mathex = require('core.extensions.math')
+local animationset = require('game.animationset')
 
 local actor = {}
 local mt = {__index = actor}
@@ -22,6 +23,9 @@ function actor.new(x, y)
     
     -- only used for scripted actors
     controller = nil,
+    
+    -- animation set
+    aset = nil,
     
     hb = rectangle.new(x or 0, y or 0, 32, 64)
   }
@@ -46,6 +50,7 @@ function actor.fromScript(name, x, y)
   end
   
   instance.controller = t.controller
+  instance.aset       = animationset.new(t.animation)
   
   return instance
 end
@@ -95,7 +100,7 @@ function actor:jump()
 end
 
 -- takes the level to resolve collision within
-function actor:update(level)
+function actor:update(level, dt)
   self.x = self.x + self.vx
   local hitbox = self:hitbox()
   
@@ -137,6 +142,11 @@ function actor:update(level)
   
   -- apply damping
   self.vx = self.vx * self.damping
+  
+  -- animate
+  if self.aset ~= nil then
+    self.aset:update(dt)
+  end
 end
 
 return actor
