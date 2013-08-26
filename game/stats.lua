@@ -3,7 +3,7 @@ local mt = {__index = stats}
 
 function stats.new()
   local instance = {
-    lives = 5,
+    lives = 3,
     lifetime = 10,
     coins = 0  
   }
