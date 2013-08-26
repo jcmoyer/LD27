@@ -1,7 +1,6 @@
-local coinDropMin = 1
-local coinDropMax = 3
-local heartDropMin = 0
-local heartDropMax = 1
+local coinDropMin = 0
+local coinDropMax = 2
+local heartDropRate = 0.03
 
 local playwalk  = false
 local direction = 'left'
@@ -31,8 +30,8 @@ local function onDie(context)
   for i = 1, n do
     context.spawnActor('coin', x + w / 2, y + h / 2)
   end
-  n = math.random(heartDropMin, heartDropMax)
-  for i = 1, n do
+  
+  if math.random() <= heartDropRate then
     context.spawnActor('heart', x + w / 2, y + h / 2)
   end
 end
