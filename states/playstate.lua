@@ -153,7 +153,7 @@ function playstate:keypressed(key)
     
     sounds.play('projectile')
     a.facing = self.player.facing
-    a:applyForce(self.player.facing, 7)
+    a:applyForce(self.player.facing, 9)
     
     intercept = true
   end
