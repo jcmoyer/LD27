@@ -2,7 +2,7 @@ return {
   animation  = 'jumper',
   controller = 'jumper',
   
-  hitbox     = {0, 0, 32, 32},
+  hitbox     = {0, 0, 32, 16},
   
   maxspeed           = 10,
   airacceleration    = 0,
