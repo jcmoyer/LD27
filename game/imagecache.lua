@@ -1,0 +1,1 @@
+return require('game.cache').new(love.graphics.newImage)

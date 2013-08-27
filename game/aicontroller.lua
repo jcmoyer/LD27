@@ -1,3 +1,5 @@
+local scriptcache = require('game.scriptcache')
+
 local aicontroller = {}
 local mt = {__index = aicontroller}
 
@@ -20,7 +22,7 @@ function aicontroller:safeCallDead(name, ...)
 end
 
 function aicontroller.new(name, actor)
-  local controller = love.filesystem.load('data/controllers/' .. name .. '.lua')
+  local controller = scriptcache.get('data/controllers/' .. name .. '.lua')
   local instance = {
     actor = actor,
     t     = controller()

@@ -1,6 +1,7 @@
 local rectangle = require('game.rectangle')
 local mathex = require('core.extensions.math')
 local animationset = require('game.animationset')
+local scriptcache = require('game.scriptcache')
 
 local actor = {}
 local mt = {__index = actor}
@@ -41,7 +42,7 @@ function actor.new(x, y)
 end
 
 function actor.fromScript(name, x, y)
-  local chunk = love.filesystem.load('data/actors/' .. name .. '.lua')
+  local chunk = scriptcache.get('data/actors/' .. name .. '.lua')
   local t     = chunk()
   
   local instance              = actor.new(x, y)
