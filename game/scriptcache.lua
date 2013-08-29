@@ -1,1 +1,1 @@
-return require('game.cache').new(love.filesystem.load)
+return require('core.cache').new(love.filesystem.load)

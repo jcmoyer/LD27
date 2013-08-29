@@ -1,1 +1,1 @@
-return require('game.cache').new(love.graphics.newImage)
+return require('core.cache').new(love.graphics.newImage)
