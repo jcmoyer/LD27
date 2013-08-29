@@ -3,7 +3,7 @@ local stringex = require('core.extensions.string')
 local path = {}
 
 function path.resolve(filename)
-  local parts = stringex.split(filename, '[\\/]+')
+  local parts = stringex.split(filename, '[\\/]+', true)
   local resolved = {}
   
   for i=1,#parts do
