@@ -1,4 +1,4 @@
-local rectangle = require('game.rectangle')
+local rectangle = require('core.rectangle')
 local mathex = require('core.extensions.math')
 local animationset = require('game.animationset')
 local scriptcache = require('game.scriptcache')

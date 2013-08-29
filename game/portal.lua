@@ -1,4 +1,4 @@
-local rectangle = require('game.rectangle')
+local rectangle = require('core.rectangle')
 
 local portal = {}
 local mt = {__index = portal}
