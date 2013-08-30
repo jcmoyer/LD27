@@ -193,10 +193,10 @@ function level:drawFringe(camera)
   end
   
   local minx, maxx, miny, maxy
-  minx = math.max(0,           math.floor(-camera.x / 32))
-  maxx = math.min(self.width,  math.ceil((-camera.x + camera.w) / 32))
-  miny = math.max(0,           math.floor(-camera.y / 32))
-  maxy = math.min(self.height, math.ceil((-camera.y + camera.h) / 32))
+  minx = math.max(0,           math.floor(camera.x / 32))
+  maxx = math.min(self.width,  math.ceil((camera.x + camera.w) / 32))
+  miny = math.max(0,           math.floor(camera.y / 32))
+  maxy = math.min(self.height, math.ceil((camera.y + camera.h) / 32))
   
   love.graphics.setColor(255, 255, 255)
   for y = miny, maxy do
