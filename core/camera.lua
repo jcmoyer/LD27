@@ -22,8 +22,8 @@ function camera.new(width, height)
 end
 
 function camera:center(x, y)
-  self.x = self.w / 2 - x
-  self.y = self.h / 2 - y
+  self.x = x - self.w / 2
+  self.y = y - self.h / 2
 end
 
 function camera:panCenter(x, y, dt)

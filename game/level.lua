@@ -159,10 +159,10 @@ function level:draw(camera)
   -- only draw what we can see
   -- this assumes that the love transform has been translated by the camera's position
   local minx, maxx, miny, maxy
-  minx = math.max(0,           math.floor(-camera.x / 32))
-  maxx = math.min(self.width,  math.ceil((-camera.x + camera.w) / 32))
-  miny = math.max(0,           math.floor(-camera.y / 32))
-  maxy = math.min(self.height, math.ceil((-camera.y + camera.h) / 32))
+  minx = math.max(0,           math.floor(camera.x / 32))
+  maxx = math.min(self.width,  math.ceil((camera.x + camera.w) / 32))
+  miny = math.max(0,           math.floor(camera.y / 32))
+  maxy = math.min(self.height, math.ceil((camera.y + camera.h) / 32))
   
   if self.background ~= nil then
     love.graphics.setColor(128, 128, 128)

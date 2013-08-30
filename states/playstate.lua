@@ -217,8 +217,8 @@ function playstate:update(dt)
   self.camera:panCenter(player.x, player.y, dt * 3)
   
   -- Lock camera to level boundaries
-  self.camera.x = mathex.clamp(self.camera.x, -self.level.width  * self.level.tilewidth  + love.graphics.getWidth(), 0)
-  self.camera.y = mathex.clamp(self.camera.y, -self.level.height * self.level.tileheight + love.graphics.getHeight(), 0)
+  self.camera.x = mathex.clamp(self.camera.x, 0, self.level.width  * self.level.tilewidth  - love.graphics.getWidth())
+  self.camera.y = mathex.clamp(self.camera.y, 0, self.level.height * self.level.tileheight - love.graphics.getHeight())
   
   self.camera:update(dt)
   
@@ -243,7 +243,7 @@ function playstate:draw()
   
   love.graphics.push()
   
-  love.graphics.translate(math.floor(self.camera:calculatedX()), math.floor(self.camera:calculatedY()))
+  love.graphics.translate(math.floor(-self.camera:calculatedX()), math.floor(-self.camera:calculatedY()))
   self.level:draw(self.camera)
   
   -- draw player
