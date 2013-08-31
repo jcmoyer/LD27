@@ -18,8 +18,8 @@ function basicgame.start(initialstate, withexts)
     sm:push(initialstate)
   end
 
-  function love.draw()
-    sm:draw()
+  function love.draw(a)
+    sm:draw(a)
   end
 
   function love.update(dt)
