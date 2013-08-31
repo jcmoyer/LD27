@@ -2,6 +2,7 @@ local gamestate = require('core.gamestate')
 local level = require('game.level')
 local player = require('game.player')
 local camera = require('core.camera')
+local chasecamera = require('core.chasecamera')
 local controller = require('game.controller')
 local mathex = require('core.extensions.math')
 local fontpool = require('core.fontpool')
@@ -11,6 +12,7 @@ local gameoverstate = require('states.gameoverstate')
 local clearstate = require('states.clearstate')
 local sounds = require('game.sounds')
 local stats = require('game.stats')
+local vector2 = require('core.vector2')
 
 local playstate = setmetatable({}, {__index = gamestate})
 local mt = {__index = playstate}
@@ -116,7 +118,9 @@ function playstate.new()
     
     stats = stats.new(),
     
-    camera = camera.new(love.graphics.getWidth(), love.graphics.getHeight())
+    camera = chasecamera.new(love.graphics.getWidth(), love.graphics.getHeight(), 30, 1, 10),
+    
+    lastdt = 0
   }
   setmetatable(instance, mt)
   
@@ -168,6 +172,10 @@ function playstate:keyreleased(key)
 end
 
 function playstate:update(dt)
+  -- Ideally this shouldn't be stored, but it's needed to predict camera motion
+  -- in the render step. Maybe add a way to get the update rate?
+  self.lastdt = dt
+  
   local player = self.player
 
   -- Apply player input
@@ -214,13 +222,8 @@ function playstate:update(dt)
   end
   
   -- Pan camera to player's position gradually
-  self.camera:panCenter(player.x, player.y, dt * 3)
-  
-  -- Lock camera to level boundaries
-  self.camera.x = mathex.clamp(self.camera.x, -self.level.width  * self.level.tilewidth  + love.graphics.getWidth(), 0)
-  self.camera.y = mathex.clamp(self.camera.y, -self.level.height * self.level.tileheight + love.graphics.getHeight(), 0)
-  
-  self.camera:update(dt)
+  self.camera:update(self.lastdt, vector2.new(player:hitbox():center()))
+  self.camera:clamp(0, 0, self.level.width * self.level.tilewidth, self.level.height * self.level.tileheight)
   
   self.stats:update(dt)
   self.stats:cap()
@@ -235,7 +238,15 @@ function playstate:update(dt)
   end
 end
 
-function playstate:draw()
+function playstate:draw(a)
+  local px, py = self.player:predict(a)
+
+  local rx, ry = self.camera:predict(self.lastdt, vector2.new(self.player:hitbox():center()), a)
+  
+  -- Calculate the left and top sides of the camera
+  rx = rx - self.camera.width / 2
+  ry = ry - self.camera.height / 2
+
   if self.level.bgimage ~= nil then
     love.graphics.setColor(255, 255, 255)
     love.graphics.draw(self.level.bgimage)
@@ -243,32 +254,31 @@ function playstate:draw()
   
   love.graphics.push()
   
-  love.graphics.translate(math.floor(self.camera:calculatedX()), math.floor(self.camera:calculatedY()))
-  self.level:draw(self.camera)
+  love.graphics.translate(math.floor(-rx), math.floor(-ry))
+  self.level:draw(self.camera, rx, ry)
   
   -- draw player
   love.graphics.setColor(255, 255, 255)
   local x, y = self.player:hitbox():unpack()
   
   local hw = self.player.w / 2
-  love.graphics.drawq(self.player.aset.image, self.player.aset:currentQuad(), math.floor(x) + hw, math.floor(y), 0, self.player:facingScaleX(), 1, hw)
   
+  love.graphics.drawq(self.player.aset.image, self.player.aset:currentQuad(), math.floor(px) + hw, math.floor(py), 0, self.player:facingScaleX(), 1, hw)
+  
+  -- draw actors
   for i = 1, #self.level.actors do
     local actor = self.level.actors[i]
-    local x, y = actor:hitbox():unpack()
-    
+    local x, y = actor:predict(a)
     local hw = actor.w / 2
     love.graphics.drawq(actor.aset.image, actor.aset:currentQuad(), math.floor(x) + hw, math.floor(y), 0, actor:facingScaleX(), 1, hw)
   end
   
-  self.level:drawFringe(self.camera)
+  self.level:drawFringe(self.camera, rx, ry)
   
   love.graphics.pop()
   
   love.graphics.setColor(0, 0, 0, 128)
   love.graphics.rectangle('fill', 0, 0, love.graphics.getWidth(), lifeHudH)
-  
-  
   
   love.graphics.setColor(255, 255, 255, 255)
   love.graphics.setFont(lifeFont)

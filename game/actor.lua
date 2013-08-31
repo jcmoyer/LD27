@@ -189,4 +189,8 @@ function actor:kill()
   self.alive = false
 end
 
+function actor:predict(a)
+  return mathex.lerp(self.x, self.x + self.vx, a), mathex.lerp(self.y, self.y + self.vy, a)
+end
+
 return actor

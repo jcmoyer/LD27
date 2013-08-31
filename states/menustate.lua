@@ -1,7 +1,7 @@
 local gamestate = require('core.gamestate')
 local playstate = require('states.playstate')
 local level = require('game.level')
-local camera = require('core.camera')
+local chasecamera = require('core.chasecamera')
 local fontpool = require('core.fontpool')
 
 local uiscene = require('ui.scene')
@@ -25,7 +25,7 @@ end
 function menustate.new()
   local instance = {
     level = level.new('title'),
-    camera = camera.new(love.graphics.getWidth(), love.graphics.getHeight())
+    camera = chasecamera.new(love.graphics.getWidth(), love.graphics.getHeight())
   }
   setmetatable(instance, mt)
   
@@ -67,16 +67,15 @@ function menustate:update(dt)
   self.ui:update(dt)
 end
 
-function menustate:draw()
+function menustate:draw(a)
   if self.level.bgimage ~= nil then
     love.graphics.setColor(255, 255, 255)
     love.graphics.draw(self.level.bgimage)
   end
   
   love.graphics.push()
-  love.graphics.translate(self.camera.x, self.camera.y)
-  self.level:draw(self.camera)
-  self.level:drawFringe(self.camera)
+  self.level:draw(self.camera, 0, 0)
+  self.level:drawFringe(self.camera, 0, 0)
   love.graphics.pop()
   
   love.graphics.setColor(0, 0, 0, 128)
