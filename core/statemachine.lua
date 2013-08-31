@@ -32,11 +32,11 @@ function statemachine:update(dt)
   end
 end
 
-function statemachine:draw()
+function statemachine:draw(a)
   local g = love.graphics
   for i = self.base, #self.states do
     g.push()
-    self.states[i]:draw()
+    self.states[i]:draw(a)
     g.pop()
   end
 end
