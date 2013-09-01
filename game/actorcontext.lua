@@ -66,6 +66,13 @@ function actorcontext.new(actor, player, spawner, stats, camera)
   function t.shakeCamera(duration, magnitude)
     camera:shake(duration, magnitude)
   end
+  function t.facing()
+    if actor:facingScaleX() < 0 then
+      return 'left'
+    else
+      return 'right'
+    end
+  end
   return t
 end
 
