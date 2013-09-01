@@ -26,8 +26,8 @@ local hudClock = love.graphics.newImage('data/images/hudclock.png')
 
 local function lifetimeStr(x)
   local sec  = x
-  local msec = math.floor(1000 * (x - math.floor(x)))
-  return string.format('%02d:%03d', sec, msec)
+  local msec = 1000 * (x - math.floor(x))
+  return string.format('%02d:%03d', math.floor(sec), math.floor(msec))
 end
 
 function playstate:spawnActor(kind, x, y)
