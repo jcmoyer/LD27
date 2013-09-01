@@ -8,6 +8,7 @@ local walk4 = {96, 0, 32, 64}
 
 return {
   image = 'stalker.png',
+  default = 'idle',
   
   animations = {
     idle = {

@@ -7,6 +7,7 @@ local walk4 = {96, 0, 32, 32}
 
 return {
   image = 'walker.png',
+  default = 'idle',
   
   animations = {
     idle = {

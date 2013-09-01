@@ -4,6 +4,7 @@ local air   = {64, 0, 32, 32}
 
 return {
   image = 'jumper.png',
+  default = 'idle',
   
   animations = {
     idle = {
