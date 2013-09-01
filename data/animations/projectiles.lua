@@ -6,6 +6,7 @@ local fireball2 = {32, 16, 32, 16}
 
 return {
   image = 'projectiles.png',
+  default = 'spark',
   
   animations = {
     spark = {
