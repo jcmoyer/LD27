@@ -16,17 +16,19 @@ function animationset.new(name)
     animations[k] = animation.new(image, v.times, v.frames)
   end
   
-  -- get the first animation name
-  local first
-  for k,v in pairs(t.animations) do
-    first = k
-    break
+  local which = t.default
+  -- pick a random (hash table doesn't guarantee order) animation
+  if which == nil then
+    for k,v in pairs(t.animations) do
+      which = k
+      break
+    end
   end
   
   local instance = {
     image = image,
     animations = animations,
-    current = first 
+    current = which 
   }
   
   return setmetatable(instance, mt)
