@@ -16,6 +16,7 @@ function actor.new(x, y)
     vy = 0,
     
     ignoregravity      = false,
+    ignoreworld        = false,
     maxspeed           = 5,
     airacceleration    = 1,
     groundacceleration = 1,
@@ -47,6 +48,7 @@ function actor.fromScript(name, x, y)
   
   local instance              = actor.new(x, y)
   instance.ignoregravity      = t.ignoregravity or instance.ignoregravity
+  instance.ignoreworld        = t.ignoreworld or instance.ignoreworld
   instance.maxspeed           = t.maxspeed or instance.maxspeed
   instance.airacceleration    = t.airacceleration or instance.airacceleration
   instance.groundacceleration = t.groundacceleration or instance.groundacceleration
@@ -131,8 +133,7 @@ function actor:jump()
   end
 end
 
--- takes the level to resolve collision within
-function actor:update(level, dt)
+function actor:collideX(level)
   self.atwall = false
   
   self.x = self.x + self.vx
@@ -155,9 +156,11 @@ function actor:update(level, dt)
       self.atwall = true
     end
   end
-  
+end
+
+function actor:collideY(level)
   self.y = self.y + self.vy
-  hitbox = self:hitbox()
+  local hitbox = self:hitbox()
   
   -- Y axis
   -- same as above
@@ -174,6 +177,16 @@ function actor:update(level, dt)
       self.y = ty + level.tileheight
       self.vy = 0
     end
+  end
+end
+
+-- takes the level to resolve collision within
+function actor:update(level, dt)
+  self.atwall = false
+  
+  if not self.ignoreworld then
+    self:collideX(level)
+    self:collideY(level)
   end
   
   -- apply damping
