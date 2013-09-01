@@ -8,9 +8,9 @@ return {
   image = 'explode.png',
   
   animations = {
-    idle = {
+    idle = {      
       times =  { 0.1, 0.1, 0.1, 0.1, 100 },
-      frames = { frame1, frame2, frame3, frame4, frame5 }
+      frames = { frame3, frame2, frame4, frame1, frame5 }
     }
   }
 }
