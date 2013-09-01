@@ -26,7 +26,7 @@ local hudClock = love.graphics.newImage('data/images/hudclock.png')
 
 local function lifetimeStr(x)
   local sec  = x
-  local msec = 1000 * (x - math.floor(x))
+  local msec = math.floor(1000 * (x - math.floor(x)))
   return string.format('%02d:%03d', sec, msec)
 end
 
