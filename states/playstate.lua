@@ -217,6 +217,7 @@ function playstate:update(dt)
       end
     else
       self.actorais[self.level.actors[i]].onDie()
+      self.actorais[self.level.actors[i]] = nil
       table.remove(self.level.actors, i)
     end
   end
