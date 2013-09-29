@@ -1,7 +1,7 @@
-local gamestate = require('core.gamestate')
-local fontpool = require('core.fontpool')
-local timerpool = require('core.timerpool')
-local mathex = require('core.extensions.math')
+local gamestate = require('hug.gamestate')
+local fontpool = require('hug.fontpool')
+local timerpool = require('hug.timerpool')
+local mathex = require('hug.extensions.math')
 local sounds = require('game.sounds')
 
 local clearstate = setmetatable({}, {__index = gamestate})

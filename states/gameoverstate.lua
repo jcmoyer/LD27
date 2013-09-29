@@ -1,7 +1,7 @@
 local uiscene = require('ui.scene')
 local uibutton = require('ui.button')
-local gamestate = require('core.gamestate')
-local fontpool = require('core.fontpool')
+local gamestate = require('hug.gamestate')
+local fontpool = require('hug.fontpool')
 
 local gameoverstate = setmetatable({}, {__index = gamestate})
 local mt = {__index = gameoverstate}

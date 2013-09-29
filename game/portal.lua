@@ -1,4 +1,4 @@
-local rectangle = require('core.rectangle')
+local rectangle = require('hug.rectangle')
 
 local portal = {}
 local mt = {__index = portal}

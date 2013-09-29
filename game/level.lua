@@ -3,7 +3,7 @@ local imageslicer = require('game.imageslicer')
 local path = require('game.path')
 local portal = require('game.portal')
 local actor = require('game.actor')
-local rectangle = require('core.rectangle')
+local rectangle = require('hug.rectangle')
 
 local level = {}
 local mt = {__index = level}

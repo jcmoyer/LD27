@@ -1,1 +1,1 @@
-return require('core.cache').new(love.graphics.newImage)
+return require('hug.cache').new(love.graphics.newImage)

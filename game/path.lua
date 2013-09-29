@@ -1,4 +1,4 @@
-local stringex = require('core.extensions.string')
+local stringex = require('hug.extensions.string')
 
 local path = {}
 

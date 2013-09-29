@@ -1,1 +1,1 @@
-return require('core.cache').new(love.filesystem.load)
+return require('hug.cache').new(love.filesystem.load)
