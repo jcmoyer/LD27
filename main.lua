@@ -7,7 +7,7 @@ local menustate = require('states.menustate')
 function love.run()
   local running = true
   
-  local now  = love.timer.getMicroTime()
+  local now  = love.timer.getTime()
   local last = now
   
   local acc  = 0
@@ -16,7 +16,7 @@ function love.run()
   local PHYS_RATE = 1 / PHYS_HZ
   
   while running do
-    now  = love.timer.getMicroTime()
+    now  = love.timer.getTime()
     acc  = acc + now - last
     last = now
     

@@ -1,6 +1,6 @@
 local sounds = {}
 
-local soundfiles = love.filesystem.enumerate('data/sounds')
+local soundfiles = love.filesystem.getDirectoryItems('data/sounds')
 
 for i = 1, #soundfiles do
   local _, _, name = soundfiles[i]:find('([%a%d_]+)%.ogg$')

@@ -14,7 +14,7 @@ local mt = {__index = menustate}
 local headerfont = fontpool.get(48)
 
 local function drawHeader()
-  local text = love.graphics.getCaption()
+  local text = love.window.getTitle()
   local w = headerfont:getWidth(text)
   local h = headerfont:getHeight()
   love.graphics.setColor(255, 255, 255)

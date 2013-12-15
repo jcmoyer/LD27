@@ -5,7 +5,7 @@ function love.conf(t)
   -- name of save directory
   t.identity = "TenMagSec"
   -- LÖVE version this game was made for
-  t.version = "0.8.0"
+  t.version = "0.9.0"
   t.console = false
   t.release = false
   t.screen.width = 800

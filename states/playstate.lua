@@ -264,14 +264,14 @@ function playstate:draw(a)
   
   local hw = self.player.w / 2
   
-  love.graphics.drawq(self.player.aset.image, self.player.aset:currentQuad(), math.floor(px) + hw, math.floor(py), 0, self.player:facingScaleX(), 1, hw)
+  love.graphics.draw(self.player.aset.image, self.player.aset:currentQuad(), math.floor(px) + hw, math.floor(py), 0, self.player:facingScaleX(), 1, hw)
   
   -- draw actors
   for i = 1, #self.level.actors do
     local actor = self.level.actors[i]
     local x, y = actor:predict(a)
     local hw = actor.w / 2
-    love.graphics.drawq(actor.aset.image, actor.aset:currentQuad(), math.floor(x) + hw, math.floor(y), 0, actor:facingScaleX(), 1, hw)
+    love.graphics.draw(actor.aset.image, actor.aset:currentQuad(), math.floor(x) + hw, math.floor(y), 0, actor:facingScaleX(), 1, hw)
   end
   
   self.level:drawFringe(self.camera, rx, ry)

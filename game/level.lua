@@ -170,7 +170,7 @@ function level:draw(camera, px, py)
       for x = minx, maxx - 1 do
         local tid = self.background:at(x+1, y)
         if tid > 0 then
-          love.graphics.drawq(self.image, self.quads[tid], x * 32, (y - 1) * 32)
+          love.graphics.draw(self.image, self.quads[tid], x * 32, (y - 1) * 32)
         end
       end
     end
@@ -181,7 +181,7 @@ function level:draw(camera, px, py)
     for x = minx, maxx - 1 do
       local tid = self.foreground:at(x+1, y)
       if tid > 0 then
-        love.graphics.drawq(self.image, self.quads[tid], (x) * 32, (y-1) * 32)
+        love.graphics.draw(self.image, self.quads[tid], (x) * 32, (y-1) * 32)
       end
     end
   end
@@ -203,7 +203,7 @@ function level:drawFringe(camera, px, py)
     for x = minx, maxx - 1 do
       local tid = self.fringe:at(x+1, y)
       if tid > 0 then
-        love.graphics.drawq(self.image, self.quads[tid], (x) * 32, (y-1) * 32)
+        love.graphics.draw(self.image, self.quads[tid], (x) * 32, (y-1) * 32)
       end
     end
   end
