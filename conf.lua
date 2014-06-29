@@ -1,26 +1,12 @@
 function love.conf(t)
-  t.title = "Ten Magic Seconds"
-  t.author = "J.C. Moyer"
-  t.url = "https://github.com/jcmoyer/"
-  -- name of save directory
   t.identity = "TenMagSec"
-  -- LÖVE version this game was made for
-  t.version = "0.9.0"
-  t.console = false
-  t.release = false
-  t.screen.width = 800
-  t.screen.height = 600
-  t.screen.fullscreen = false
-  t.screen.vsync = true
-  t.screen.fsaa = 0
+  t.version  = "0.9.0"
+  
+  t.window.title      = "Ten Magic Seconds"
+  t.window.width      = 800
+  t.window.height     = 600
+  t.window.fullscreen = false
+  
   t.modules.joystick = false
-  t.modules.audio = true
-  t.modules.keyboard = true
-  t.modules.event = true
-  t.modules.image = true
-  t.modules.graphics = true
-  t.modules.timer = true
-  t.modules.mouse = true
-  t.modules.sound = true
-  t.modules.physics = false
+  t.modules.physics  = false
 end
