@@ -16,8 +16,8 @@ end
 
 function portal:hitbox()
   local hitbox = self.hb
-  hitbox.x = self.x
-  hitbox.y = self.y
+  hitbox[1] = self.x
+  hitbox[2] = self.y
   return hitbox
 end
 

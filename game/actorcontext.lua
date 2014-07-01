@@ -49,7 +49,7 @@ function actorcontext.new(actor, player, spawner, stats, camera)
     return actor:kill()
   end
   function t.dimensions()
-    return actor:hitbox():unpack()
+    return unpack(actor:hitbox())
   end
   function t.spawnActor(kind, x, y)
     return spawner(kind, x, y)

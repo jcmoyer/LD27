@@ -5,7 +5,7 @@ local camera = require('hug.camera')
 local chasecamera = require('hug.chasecamera')
 local controller = require('game.controller')
 local mathex = require('hug.extensions.math')
-local fontpool = require('hug.fontpool')
+local fontpool = require('game.fontpool')
 local aicontroller = require('game.aicontroller')
 local actorcontext = require('game.actorcontext')
 local gameoverstate = require('states.gameoverstate')
@@ -129,7 +129,7 @@ function playstate.new()
   return instance
 end
 
-function playstate:onEnter(oldstate)
+function playstate:enter(oldstate)
   if clearstate.isclearstate(oldstate) then
     self:changelevel(oldstate.nextlevel)
   end
@@ -260,7 +260,7 @@ function playstate:draw(a)
 
   -- draw player
   love.graphics.setColor(255, 255, 255)
-  local x, y = self.player:hitbox():unpack()
+  local x, y = unpack(self.player:hitbox())
   
   local hw = self.player.w / 2
   

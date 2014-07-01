@@ -2,7 +2,7 @@ local gamestate = require('hug.gamestate')
 local playstate = require('states.playstate')
 local level = require('game.level')
 local chasecamera = require('hug.chasecamera')
-local fontpool = require('hug.fontpool')
+local fontpool = require('game.fontpool')
 
 local uiscene = require('ui.scene')
 local uistackpanel = require('ui.stackpanel')

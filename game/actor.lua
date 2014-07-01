@@ -57,8 +57,8 @@ function actor.fromScript(name, x, y)
   
   if t.hitbox then
     instance.hb = rectangle.new(unpack(t.hitbox))
-    instance.w  = instance.hb.w
-    instance.h  = instance.hb.h
+    instance.w  = instance.hb:width()
+    instance.h  = instance.hb:height()
   end
   
   instance.controller = t.controller
@@ -80,8 +80,8 @@ end
 
 function actor:hitbox()
   local hitbox = self.hb
-  hitbox.x = self.x
-  hitbox.y = self.y
+  hitbox[1] = self.x
+  hitbox[2] = self.y
   return hitbox
 end
 
@@ -141,8 +141,8 @@ function actor:collideX(level)
   
   -- X axis
   -- we have to fudge the numbers a bit; if we don't subtract 1 from the bottom weird things happen
-  for y = hitbox.y, hitbox:bottom() - 1 do
-    local solid, tx = level:solidAt(hitbox.x, y)
+  for y = hitbox:y(), hitbox:bottom() - 1 do
+    local solid, tx = level:solidAt(hitbox:x(), y)
     if solid then
       self.x = tx
       self.vx = 0
@@ -164,7 +164,7 @@ function actor:collideY(level)
   
   -- Y axis
   -- same as above
-  for x = hitbox.x, hitbox:right() - 1 do
+  for x = hitbox:x(), hitbox:right() - 1 do
     local solid, _, ty = level:solidAt(x, hitbox:bottom())
     if solid then
       self.y = ty - self.h
@@ -172,7 +172,7 @@ function actor:collideY(level)
       self.onground = true
     end
     
-    solid, _, ty = level:solidAt(x, hitbox.y)
+    solid, _, ty = level:solidAt(x, hitbox:y())
     if solid then
       self.y = ty + level.tileheight
       self.vy = 0

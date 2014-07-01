@@ -1,8 +1,8 @@
-local fontpool = require('hug.fontpool')
+local fontpool = require('game.fontpool')
 local event = require('ui.event')
 local control = {}
 
-local defaultFont = fontpool.get()
+local defaultFont = fontpool.get(12)
 
 function control.new(x, y, w, h)
   local instance = {

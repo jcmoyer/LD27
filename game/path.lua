@@ -14,7 +14,7 @@ function path.resolve(filename)
       resolved[#resolved + 1] = part
     end
   end
-  return stringex.join('/', resolved)
+  return table.concat(resolved, '/')
 end
 
 
