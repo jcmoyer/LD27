@@ -118,7 +118,7 @@ function playstate.new()
     
     stats = stats.new(),
     
-    camera = chasecamera.new(love.graphics.getWidth(), love.graphics.getHeight(), 30, 1, 10),
+    camera = chasecamera.new(love.graphics.getWidth(), love.graphics.getHeight(), 75, 1, 0.25),
     
     lastdt = 0
   }
