@@ -9,6 +9,10 @@ local mt = {__index = clearstate}
 
 local headerFont = fontpool.get(36)
 
+local function alpha(n)
+  return n * 255
+end
+
 function clearstate.isclearstate(t)
   return getmetatable(t) == mt
 end
@@ -40,7 +44,7 @@ function clearstate:update(dt)
 end
 
 function clearstate:draw()
-  local a = mathex.clamp((1 - (self.fader:remaining() / self.fader:duration())) * 255, 0, 255)
+  local a = self.fader:evaluate(alpha)
   
   love.graphics.setColor(0, 0, 0, a)
   love.graphics.rectangle('fill', 0, 0, love.graphics.getWidth(), love.graphics.getHeight())
