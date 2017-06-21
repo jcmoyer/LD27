@@ -22,7 +22,7 @@ function aicontroller:safeCallDead(name, ...)
 end
 
 function aicontroller.new(name, actor)
-  local controller = scriptcache.get('data/controllers/' .. name .. '.lua')
+  local controller = scriptcache:get('data/controllers/' .. name .. '.lua')
   local instance = {
     actor = actor,
     t     = controller()

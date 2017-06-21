@@ -7,7 +7,7 @@ local sounds = require('game.sounds')
 local clearstate = setmetatable({}, {__index = gamestate})
 local mt = {__index = clearstate}
 
-local headerFont = fontpool.get(36)
+local headerFont = fontpool:get(36)
 
 local function alpha(n)
   return n * 255

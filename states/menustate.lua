@@ -11,7 +11,7 @@ local uibutton = require('ui.button')
 local menustate = setmetatable({}, {__index = gamestate})
 local mt = {__index = menustate}
 
-local headerfont = fontpool.get(48)
+local headerfont = fontpool:get(48)
 
 local function drawHeader()
   local text = love.window.getTitle()

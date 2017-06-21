@@ -6,10 +6,10 @@ local animationset = {}
 local mt = {__index = animationset}
 
 function animationset.new(name)
-  local chunk = scriptcache.get('data/animations/' .. name .. '.lua')
+  local chunk = scriptcache:get('data/animations/' .. name .. '.lua')
   local t     = chunk()
   
-  local image = imagecache.get('data/images/' .. t.image)
+  local image = imagecache:get('data/images/' .. t.image)
   local animations = {}
   
   for k,v in pairs(t.animations) do

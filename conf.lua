@@ -1,6 +1,6 @@
 function love.conf(t)
   t.identity = "TenMagSec"
-  t.version  = "0.9.0"
+  t.version  = "0.10.2"
   
   t.window.title      = "Ten Magic Seconds"
   t.window.width      = 800

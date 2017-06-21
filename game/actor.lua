@@ -43,7 +43,7 @@ function actor.new(x, y)
 end
 
 function actor.fromScript(name, x, y)
-  local chunk = scriptcache.get('data/actors/' .. name .. '.lua')
+  local chunk = scriptcache:get('data/actors/' .. name .. '.lua')
   local t     = chunk()
   
   local instance              = actor.new(x, y)

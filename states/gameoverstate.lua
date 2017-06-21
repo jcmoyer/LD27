@@ -6,8 +6,8 @@ local fontpool = require('game.fontpool')
 local gameoverstate = setmetatable({}, {__index = gamestate})
 local mt = {__index = gameoverstate}
 
-local gameoverFont = fontpool.get(36)
-local gameoverSubFont = fontpool.get(16)
+local gameoverFont = fontpool:get(36)
+local gameoverSubFont = fontpool:get(16)
 
 local winMessage = 'You win! Thanks for playing!'
 local winMessageWidth = gameoverFont:getWidth(winMessage)

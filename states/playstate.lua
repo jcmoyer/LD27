@@ -17,7 +17,7 @@ local vector2 = require('hug.vector2')
 local playstate = setmetatable({}, {__index = gamestate})
 local mt = {__index = playstate}
 
-local lifeFont = fontpool.get(18)
+local lifeFont = fontpool:get(18)
 local lifeHudH = lifeFont:getHeight()
 
 local hudLife = love.graphics.newImage('data/images/hudlife.png')
