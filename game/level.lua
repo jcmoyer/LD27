@@ -11,7 +11,7 @@ local mt = {__index = level}
 function level.new(name)
   local filename = 'data/levels/' .. name .. '.lua'
   
-  if love.filesystem.exists(filename) == false then
+  if love.filesystem.getInfo(filename) == false then
     error("level " .. name .. " doesn't exist!")
   end
   
